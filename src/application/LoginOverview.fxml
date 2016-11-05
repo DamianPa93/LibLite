@@ -34,7 +34,7 @@
                      <children>
                         <TextField fx:id="txtLogin" promptText="Login" />
                         <PasswordField fx:id="txtPassword" promptText="Password" GridPane.rowIndex="1" />
-                        <Button fx:id="btnLogin" mnemonicParsing="false" onAction="#LoginCheck" prefHeight="25.0" prefWidth="278.0" text="Log in" GridPane.rowIndex="2">
+                        <Button fx:id="btnLogin" mnemonicParsing="false" onAction="#Button" prefHeight="25.0" prefWidth="278.0" text="Log in" GridPane.rowIndex="2">
                            <GridPane.margin>
                               <Insets />
                            </GridPane.margin>

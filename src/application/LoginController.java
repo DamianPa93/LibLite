@@ -1,63 +1,63 @@
 package application;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
 public class LoginController {
 
 	private String connection = "jdbc:mysql://localhost:3306/lib_lite";
 	private String dbLogin = "root";
 	private String dbPass = "Zwierz1993";
+	private Main main;
 	
 	@FXML
 	private TextField txtLogin; 
 	
 	@FXML
 	private TextField txtPassword; 
+
+	@FXML
+	private void Button() throws IOException{
+		if(isCredentialsValid()){
+			main.showMainView();
+		} else {
+			System.out.println("Fail.");
+		}
+	}
 	
-	Connection conn = null;
-	ResultSet rs = null;
-	PreparedStatement ps = null;
-	
-	public void LoginCheck(ActionEvent event){
-		
-		// Make a connections.
+	private boolean isCredentialsValid(){
+		boolean in = false;
 		String sql = "Select * from tbl_admin where login=? and cast(password as binary)=?";
+		Connection conn = null;
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		
 		try{
 			conn = DriverManager.getConnection(connection, dbLogin, dbPass);
-			ps = conn.prepareStatement(sql);
-			ps.setString(1, txtLogin.getText());
-			ps.setString(2, txtPassword.getText());
-			rs = ps.executeQuery();
+			conn.setAutoCommit(false);
+			pst = conn.prepareStatement(sql);
+			pst.setString(1, txtLogin.getText());
+			pst.setString(2, txtPassword.getText());
 			
-			// Check if login and password are correct.
-			if(rs.next()){
-				System.out.println("Success");
-				Parent test_parent = FXMLLoader.load(getClass().getResource("test.fxml"));
-				Scene test_scene = new Scene(test_parent);
-				Stage test_stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-				test_stage.hide();
-				test_stage.setScene(test_scene);
-				test_stage.show();
+			rs = pst.executeQuery();
+					
+			while(rs.next()){
+				in = true;
 			}
-			else{
-				System.out.println("Username or password are invalid");
-			}
+			rs.close();
+			pst.close();
+			conn.close();
+			
 		}
-		catch(Exception e) {
+		catch(Exception e){
 			e.printStackTrace();
+			System.exit(0);
 		}
-		
+		return in;
 	}
-
 }
