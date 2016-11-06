@@ -21,12 +21,11 @@ public class Main extends Application {
 		Main.primaryStage = primaryStage;
 		Main.primaryStage.setTitle("LibLite");
 		showLoginView();
-		
 	}
 	
 	public static void showMainView() throws IOException{
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(Main.class.getResource("LibMenu1.fxml"));
+		loader.setLocation(Main.class.getResource("LibLayout.fxml"));
 		mainBorderLayout = loader.load();
 		Scene scene = new Scene(mainBorderLayout);
 		primaryStage.setScene(scene);
@@ -40,6 +39,13 @@ public class Main extends Application {
 		Scene scene = new Scene(mainAnchorLayout);
 		primaryStage.setScene(scene);
 		primaryStage.show();
+	}
+	
+	public static void showMainLibrary() throws IOException{
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(Main.class.getResource("LibraryOverview.fxml"));
+		BorderPane mainLibrary = loader.load();
+		mainBorderLayout.setCenter(mainLibrary);
 	}
 	
 	public static void main(String[] args) {

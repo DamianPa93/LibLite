@@ -13,7 +13,6 @@ public class LoginController {
 	private String connection = "jdbc:mysql://localhost:3306/lib_lite";
 	private String dbLogin = "root";
 	private String dbPass = "Zwierz1993";
-	private Main main;
 	
 	@FXML
 	private TextField txtLogin; 
@@ -24,7 +23,7 @@ public class LoginController {
 	@FXML
 	private void Button() throws IOException{
 		if(isCredentialsValid()){
-			main.showMainView();
+			Main.showMainView();
 		} else {
 			System.out.println("Fail.");
 		}

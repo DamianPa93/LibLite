@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane prefHeight="300.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.LibraryController">
+   <top>
+      <Label text="LIBRARY &gt;" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+   </top>
+   <center>
+      <TabPane fx:id="libraryTab" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab text="Search book">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="libraryTable" layoutX="47.0" layoutY="48.0" prefHeight="203.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="29.0">
+                          <columns>
+                            <TableColumn fx:id="libraryIsbnColumn" prefWidth="75.0" text="ISBN" />
+                            <TableColumn fx:id="libraryAuthorColumn" prefWidth="82.0" text="AUTHOR" />
+                              <TableColumn fx:id="libraryTitleColumn" prefWidth="68.0" text="TITLE" />
+                              <TableColumn fx:id="libraryCategoryColumn" prefWidth="75.0" text="CATEGORY" />
+                          </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                        <TextField fx:id="bookText" layoutX="7.0" layoutY="2.0" prefHeight="25.0" promptText="Enter book title" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="124.0" AnchorPane.topAnchor="2.0" />
+                        <Button layoutX="338.0" layoutY="2.0" mnemonicParsing="false" onAction="#initializeLibraryDB" prefHeight="25.0" prefWidth="120.0" text="Search" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Search author">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TextField fx:id="authorText" prefHeight="25.0" promptText="Enter author name" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="124.0" AnchorPane.topAnchor="2.0" />
+                        <Button layoutX="180.0" layoutY="2.0" mnemonicParsing="false" onAction="#initializeAuthorDB" prefHeight="25.0" prefWidth="120.0" text="Search" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
+                        <TableView fx:id="libraryTable2" layoutX="123.0" layoutY="37.0" prefHeight="251.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="29.0">
+                          <columns>
+                            <TableColumn fx:id="libraryNameColumn" prefWidth="75.0" text="NAME" />
+                            <TableColumn fx:id="libraryBirthColumn" prefWidth="75.0" text="BIRTH DATE" />
+                              <TableColumn fx:id="libraryCountryColumn" prefWidth="75.0" text="COUNTRY" />
+                              <TableColumn fx:id="libraryCommentsColumn" prefWidth="75.0" text="COMMENTS" />
+                          </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="Advanced search">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </center>
+</BorderPane>

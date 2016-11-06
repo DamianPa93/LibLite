@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="300.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.LibController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -30,7 +30,7 @@
    <left>
       <ToolBar orientation="VERTICAL" prefHeight="375.0" prefWidth="64.0" BorderPane.alignment="CENTER">
         <items>
-          <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Library" />
+          <Button mnemonicParsing="false" onAction="#handleLibrary" prefHeight="25.0" prefWidth="65.0" text="Library" />
             <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Users" />
             <Button layoutX="10.0" layoutY="39.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Workers" />
             <Button layoutX="10.0" layoutY="68.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Loans" />
