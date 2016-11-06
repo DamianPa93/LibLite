@@ -60,7 +60,56 @@
           </Tab>
             <Tab text="Advanced search">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="2.0">
+                          <tabs>
+                            <Tab text="Search book">
+                              <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <TextField fx:id="advancedText" layoutX="38.0" layoutY="14.0" promptText="Enter search value" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="124.0" AnchorPane.topAnchor="2.0" />
+                                          <Button layoutX="520.0" layoutY="2.0" mnemonicParsing="false" onAction="#initializeAdvancedBookDB" prefHeight="25.0" prefWidth="120.0" text="Search" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
+                                          <TableView fx:id="advancedTable" layoutX="100.0" layoutY="27.0" prefHeight="220.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="29.0">
+                                            <columns>
+                                              <TableColumn fx:id="advancedIsbnCol" prefWidth="75.0" text="ISBN" />
+                                              <TableColumn fx:id="advancedAuthorCol" prefWidth="75.0" text="AUTHOR" />
+                                                <TableColumn fx:id="advancedTitleCol" prefWidth="75.0" text="TITLE" />
+                                                <TableColumn fx:id="advancedCatCol" prefWidth="75.0" text="CATEGORY" />
+                                                <TableColumn fx:id="advancedPublisherCol" prefWidth="75.0" text="PUBLISHER" />
+                                                <TableColumn fx:id="advancedDatPublCol" prefWidth="75.0" text="DATE OF PUBLICATION" />
+                                                <TableColumn fx:id="advancedRatingCol" prefWidth="75.0" text="RATING" />
+                                                <TableColumn fx:id="advancedCommCol" prefWidth="75.0" text="COMMENTS" />
+                                                <TableColumn fx:id="advancedOrderIdCol" prefWidth="75.0" text="ORDER_ID" />
+                                                <TableColumn fx:id="advancedOrderDtCol" prefWidth="75.0" text="ORDER DATE" />
+                                                <TableColumn fx:id="advancedLoanDtCol" prefWidth="75.0" text="LOAN DATE" />
+                                            </columns>
+                                             <columnResizePolicy>
+                                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                             </columnResizePolicy>
+                                          </TableView>
+                                       </children>
+                                    </AnchorPane>
+                              </content>
+                            </Tab>
+                            <Tab text="Search user">
+                              <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                              </content>
+                            </Tab>
+                              <Tab text="Search loan">
+                                 <content>
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                 </content>
+                              </Tab>
+                              <Tab text="Search loan history">
+                                 <content>
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                 </content>
+                              </Tab>
+                          </tabs>
+                        </TabPane>
+                     </children></AnchorPane>
                </content>
             </Tab>
         </tabs>

@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 
 public class DBTest {
 
@@ -17,16 +16,32 @@ public class DBTest {
 			//Statement myStmt = myConn.createStatement(); 
 			PreparedStatement pst = null;
 			//3. Execute Query
-			String dupa = "a";
-			String sql = "select concat(name, ' ',surname) as name, birth_date, country, comments "
-					+ "from tbl_author where concat(name, ' ',surname) like '%" + dupa + "%'";
+			String dupa = "har";
 			
-			pst = myConn.prepareStatement(sql);
-			//pst.setString(1, "a");
-			//ResultSet myRs = myStmt.executeQuery(sql);
-			ResultSet myRs = pst.executeQuery(sql);
-			//System.out.println("ok");
-			//4. Process the result test
+		String q =	"select b.isbn, concat(a.name, ' ', a.surname) as author, b.title, " +
+			   "group_concat(c.category separator ', ') as category, " +
+		       "concat(p.name, ' ', p.second_name, ' ', p.organization) as publisher, " +
+		       "b.date_of_publication, b.book_rating, b.comments, o.id, o.order_date, " +
+		       "l.loan_date " +
+		"from tbl_book b join tbl_author a on b.id_author = a.id " +
+		"join tbl_category c on (b.id_category_1 = c.id " +
+								 "OR b.id_category_2 = c.id " +
+								 "OR b.id_category_3 = c.id) " +
+		"left join tbl_publisher p on b.id_publisher = p.id " +
+		"left join tbl_order o on b.id = o.book_id " +
+		"left join tbl_loan l on b.id = l.book_id " +
+		"where "   +
+		"(category like '%" + dupa + "%' or b.isbn like '%" + dupa + "%' or concat(a.name, ' ', a.surname) like '%" + dupa + "%' " +
+		 "or b.title like '%" + dupa + "%' or concat(p.name, ' ', p.second_name, ' ', p.organization) like '%" + dupa + "%' " +
+		 "or b.book_rating like '%" + dupa + "%') group by 1,2,3,5,9,11";
+		
+		
+			
+			System.out.println(q);
+			pst = myConn.prepareStatement(q);
+			ResultSet myRs = pst.executeQuery(q);
+			
+			
 			while(myRs.next()){
 				System.out.println(myRs.getString(1) + "|" + myRs.getString(2));
 			} 
