@@ -11,6 +11,8 @@ import application.model.Author;
 import application.model.Book;
 import application.model.BookDetail;
 import application.model.DbConnection;
+import application.model.Loan;
+import application.model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -109,6 +111,70 @@ public class LibraryController implements Initializable
 	private TextField advancedText;
 	
 	private ObservableList<BookDetail> dataAdvancedBook;
+	
+	
+	//Advanced search user
+	@FXML
+	private TableView<User> advancedTable2;
+	
+	@FXML
+	private TableColumn<User, String> userLoginCol;
+	
+	@FXML
+	private TableColumn<User, String> userNameCol;
+	
+	@FXML
+	private TableColumn<User, String> userAddressCol;
+	
+	@FXML
+	private TableColumn<User, String> userPhoneCol;
+	
+	@FXML
+	private TableColumn<User, String> userEmailCol;
+	
+	@FXML
+	private TableColumn<User, String> userPeselCol;
+	
+	@FXML
+	private TableColumn<User, Integer> userBooksCol;
+	
+	@FXML
+	private TableColumn<User, Integer> userOrdersCol;
+	
+	@FXML
+	private TableColumn<User, String> userStatusCol;
+	
+	@FXML
+	private TextField advancedText2;
+	
+	private ObservableList<User> dataAdvancedUser;
+	
+	//Advanced search loan
+	@FXML
+	private TableView<Loan> advancedTable3;
+	
+	@FXML
+	private TableColumn<Loan, String> loanBorrowerCol;
+	
+	@FXML
+	private TableColumn<Loan, String> loanTitleCol;
+	
+	@FXML
+	private TableColumn<Loan, String> loanIsbnrCol;
+	
+	@FXML
+	private TableColumn<Loan, String> loanDateFromCol;
+	
+	@FXML
+	private TableColumn<Loan, String> loanReturnToCol;
+	
+	@FXML
+	private TableColumn<Loan, String> loanCommentsCol;
+	
+	@FXML
+	private TextField advancedText3;
+	
+	private ObservableList<Loan> dataAdvancedLoan;
 	
 	@FXML
 	private void initializeLibraryDB() throws SQLException{
@@ -217,6 +283,87 @@ public class LibraryController implements Initializable
 		advancedTable.setItems(null);
 		advancedTable.setItems(dataAdvancedBook);
 	}
+	
+	@FXML
+	private void initializeAdvancedUserDB() throws SQLException{
+		dataAdvancedUser = FXCollections.observableArrayList();
+		
+		String searchText = advancedText2.getText();
+		
+		String sql = "select * from ("
+				+ "select  u.username, concat(u.name, ' ',u.surname) name,"
+				+ "concat(u.city, ' ',u.postal_code, ', ',u.street,' ',u.apartment_num) address,"
+				+ "u.phone, u.email, u.socsecnumber,"
+				+ "(select count(*) from tbl_loan l where l.user_id = u.id) books,"
+				+ "(select count(*) from tbl_order o where o.user_id = u.id) orders,u.status "
+				+ "from tbl_user u) x "
+				+ "where x.username like '%" + searchText + "%' "
+				+ "or x.name like '%" + searchText + "%' "
+				+ "or x.socsecnumber like '%" + searchText + "%'";
+		
+		System.out.println(searchText);
+		PreparedStatement pst = conn.prepareStatement(sql);
+		ResultSet rs = pst.executeQuery(sql);
+		
+		while(rs.next()){
+			System.out.println(rs.getString(3) + "|" + rs.getString(4));
+			dataAdvancedUser.add(new User(rs.getString(1), rs.getString(2), rs.getString(3),
+					rs.getString(4),rs.getString(5),rs.getString(6),rs.getInt(7),rs.getInt(8),rs.getString(9)));
+		}
+		
+		userLoginCol.setCellValueFactory(new PropertyValueFactory<>("login"));
+		userNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+		userAddressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
+		userPhoneCol.setCellValueFactory(new PropertyValueFactory<>("phone"));
+		userEmailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
+		userPeselCol.setCellValueFactory(new PropertyValueFactory<>("pesel"));
+		userBooksCol.setCellValueFactory(new PropertyValueFactory<>("books"));
+		userOrdersCol.setCellValueFactory(new PropertyValueFactory<>("orders"));
+		userStatusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
+		
+		advancedTable2.setItems(null);
+		advancedTable2.setItems(dataAdvancedUser);
+	}
+	
+	@FXML
+	private void initializeAdvancedLoanDB() throws SQLException{
+		dataAdvancedLoan = FXCollections.observableArrayList();
+		
+		String searchText = advancedText3.getText();
+		
+		String sql = "select x.* from ("
+				+ "select concat(u.name, ' ',u.surname) borrower, b.title, b.isbn,"
+				+ "l.loan_date date_from, DATE_ADD(l.loan_date, INTERVAL 14 DAY) return_to, l.comments "
+				+ "from tbl_loan l join tbl_user u on u.id = l.user_id "
+				+ "join tbl_book b on b.id = l.book_id ) x "
+				+ "where x.borrower like '%" + searchText + "%' "
+				+ "or x.title like '%" + searchText + "%' "
+				+ "or x.isbn like '%" + searchText + "%'";
+		
+		System.out.println(searchText);
+		PreparedStatement pst = conn.prepareStatement(sql);
+		ResultSet rs = pst.executeQuery(sql);
+		
+		while(rs.next()){
+			System.out.println(rs.getString(3) + "|" + rs.getString(4));
+			dataAdvancedLoan.add(new Loan(rs.getString(1),rs.getString(2),rs.getString(3),
+					rs.getDate(4).toString(),rs.getDate(4).toString(),rs.getString(6)));
+		}
+		
+		loanBorrowerCol.setCellValueFactory(new PropertyValueFactory<>("borrower"));
+		loanTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+		loanIsbnrCol.setCellValueFactory(new PropertyValueFactory<>("isbn"));
+		loanDateFromCol.setCellValueFactory(new PropertyValueFactory<>("dateFrom"));
+		loanReturnToCol.setCellValueFactory(new PropertyValueFactory<>("returnTo"));
+		loanCommentsCol.setCellValueFactory(new PropertyValueFactory<>("comments"));
+		System.out.println("wat");
+		
+		
+		advancedTable3.setItems(null);
+		advancedTable3.setItems(dataAdvancedLoan);
+		
+	}
+	
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {

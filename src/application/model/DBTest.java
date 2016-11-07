@@ -16,24 +16,16 @@ public class DBTest {
 			//Statement myStmt = myConn.createStatement(); 
 			PreparedStatement pst = null;
 			//3. Execute Query
-			String dupa = "har";
+			//String dupa = "a";
 			
-		String q =	"select b.isbn, concat(a.name, ' ', a.surname) as author, b.title, " +
-			   "group_concat(c.category separator ', ') as category, " +
-		       "concat(p.name, ' ', p.second_name, ' ', p.organization) as publisher, " +
-		       "b.date_of_publication, b.book_rating, b.comments, o.id, o.order_date, " +
-		       "l.loan_date " +
-		"from tbl_book b join tbl_author a on b.id_author = a.id " +
-		"join tbl_category c on (b.id_category_1 = c.id " +
-								 "OR b.id_category_2 = c.id " +
-								 "OR b.id_category_3 = c.id) " +
-		"left join tbl_publisher p on b.id_publisher = p.id " +
-		"left join tbl_order o on b.id = o.book_id " +
-		"left join tbl_loan l on b.id = l.book_id " +
-		"where "   +
-		"(category like '%" + dupa + "%' or b.isbn like '%" + dupa + "%' or concat(a.name, ' ', a.surname) like '%" + dupa + "%' " +
-		 "or b.title like '%" + dupa + "%' or concat(p.name, ' ', p.second_name, ' ', p.organization) like '%" + dupa + "%' " +
-		 "or b.book_rating like '%" + dupa + "%') group by 1,2,3,5,9,11";
+		String q =	"select x.* from ("
+				+ "select concat(u.name, ' ',u.surname) borrower, b.title, b.isbn,"
+				+ "l.loan_date date_from, DATE_ADD(l.loan_date, INTERVAL 14 DAY) return_to, l.comments "
+				+ "from tbl_loan l join tbl_user u on u.id = l.user_id "
+				+ "join tbl_book b on b.id = l.book_id ) x "
+				+ "where x.borrower like '%st%' "
+				+ "or x.title like '%st%' "
+				+ "or x.isbn like '%st%'";
 		
 		
 			
