@@ -100,14 +100,14 @@ public class LibraryController implements Initializable
 	@FXML
 	private TableColumn<BookDetail, String> advancedCommCol;
 	
-	@FXML
+	/*@FXML
 	private TableColumn<BookDetail, Integer> advancedOrderIdCol;
 	
 	@FXML
 	private TableColumn<BookDetail, String> advancedOrderDtCol;
 	
 	@FXML
-	private TableColumn<BookDetail, String> advancedLoanDtCol;
+	private TableColumn<BookDetail, String> advancedLoanDtCol; */
 	
 	@FXML
 	private TextField advancedText;
@@ -312,22 +312,18 @@ public class LibraryController implements Initializable
 		
 		String searchText = advancedText.getText();
 		
-		String sql = "select b.isbn, concat(a.name, ' ', a.surname) as author, b.title, " +
-				   "group_concat(c.category separator ', ') as category, " +
-			       "concat(p.name, ' ', p.second_name, ' ', p.organization) as publisher, " +
-			       "b.date_of_publication, b.book_rating, b.comments, o.id, o.order_date, " +
-			       "l.loan_date " +
-			"from tbl_book b join tbl_author a on b.id_author = a.id " +
-			"left join tbl_category c on (b.id_category_1 = c.id " +
-									 "OR b.id_category_2 = c.id " +
-									 "OR b.id_category_3 = c.id) " +
-			"left join tbl_publisher p on b.id_publisher = p.id " +
-			"left join tbl_order o on b.id = o.book_id " +
-			"left join tbl_loan l on b.id = l.book_id " +
-			"where "   +
-			"(category like '%" + searchText + "%' or b.isbn like '%" + searchText + "%' or concat(a.name, ' ', a.surname) like '%" + searchText + "%' " +
-			 "or b.title like '%" + searchText + "%' or concat(p.name, ' ', p.second_name, ' ', p.organization) like '%" + searchText + "%' " +
-			 "or b.book_rating like '%" + searchText + "%') group by 1,2,3,5,9,11";
+		String sql = "select b.isbn, concat(a.name, ' ', a.surname) as author, b.title, "
+				+ " group_concat(c.category separator ', ') as category, "
+				+ " concat(p.name, ' ', p.second_name, ' ', p.organization) as publisher, "
+				+ " b.date_of_publication, b.book_rating, b.comments "
+				+ "from tbl_book b join tbl_author a on b.id_author = a.id "
+				+ "left join tbl_category c on (b.id_category_1 = c.id "
+				+ " OR b.id_category_2 = c.id "
+				+ " OR b.id_category_3 = c.id) "
+				+ "	left join tbl_publisher p on b.id_publisher = p.id where "
+				+ "(category like '%" + searchText + "%' or b.isbn like '%" + searchText + "%' or concat(a.name, ' ', a.surname) like '%" + searchText + "%' "
+				+ " or b.title like '%" + searchText + "%' or concat(p.name, ' ', p.second_name, ' ', p.organization) like '%" + searchText + "%' "
+				+ " or b.book_rating like '%" + searchText + "%') group by 1,2,3,5; ";
 		
 		System.out.println(searchText);
 		PreparedStatement pst = conn.prepareStatement(sql);
@@ -336,8 +332,7 @@ public class LibraryController implements Initializable
 		while(rs.next()){
 			System.out.println(rs.getString(3) + "|" + rs.getString(4));
 			dataAdvancedBook.add(new BookDetail(rs.getString(1),rs.getString(2),rs.getString(4),rs.getString(3),
-					rs.getString(5),rs.getString(6),rs.getInt(7),rs.getString(8),rs.getInt(9),
-					rs.getString(10),rs.getString(11)));
+					rs.getString(5),rs.getString(6),rs.getInt(7),rs.getString(8)));
 		} 
 		
 		advancedIsbnCol.setCellValueFactory(new PropertyValueFactory<>("isbn"));
@@ -348,9 +343,9 @@ public class LibraryController implements Initializable
 		advancedDatPublCol.setCellValueFactory(new PropertyValueFactory<>("dateOfPublication"));
 		advancedRatingCol.setCellValueFactory(new PropertyValueFactory<>("rating"));
 		advancedCommCol.setCellValueFactory(new PropertyValueFactory<>("comments"));
-		advancedOrderIdCol.setCellValueFactory(new PropertyValueFactory<>("orderId"));
+		/*advancedOrderIdCol.setCellValueFactory(new PropertyValueFactory<>("orderId"));
 		advancedOrderDtCol.setCellValueFactory(new PropertyValueFactory<>("orderDate"));
-		advancedLoanDtCol.setCellValueFactory(new PropertyValueFactory<>("loanDate"));
+		advancedLoanDtCol.setCellValueFactory(new PropertyValueFactory<>("loanDate"));*/
 		
 		advancedTable.setItems(null);
 		advancedTable.setItems(dataAdvancedBook);

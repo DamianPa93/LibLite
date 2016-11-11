@@ -80,9 +80,6 @@
                                                 <TableColumn fx:id="advancedDatPublCol" prefWidth="75.0" text="DATE OF PUBLICATION" />
                                                 <TableColumn fx:id="advancedRatingCol" prefWidth="75.0" text="RATING" />
                                                 <TableColumn fx:id="advancedCommCol" prefWidth="75.0" text="COMMENTS" />
-                                                <TableColumn fx:id="advancedOrderIdCol" prefWidth="75.0" text="ORDER_ID" />
-                                                <TableColumn fx:id="advancedOrderDtCol" prefWidth="75.0" text="ORDER DATE" />
-                                                <TableColumn fx:id="advancedLoanDtCol" prefWidth="75.0" text="LOAN DATE" />
                                             </columns>
                                              <columnResizePolicy>
                                                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

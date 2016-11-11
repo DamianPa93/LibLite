@@ -9,7 +9,7 @@
 
 <BorderPane prefHeight="300.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.EditController">
    <center>
-      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+      <TabPane fx:id="editTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
           <Tab text="Edit users">
             <content>
@@ -136,7 +136,7 @@
    <right>
       <ToolBar orientation="VERTICAL" prefHeight="40.0" prefWidth="64.0" BorderPane.alignment="CENTER">
         <items>
-          <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Refresh" />
+          <Button mnemonicParsing="false" onAction="#handleChangeTab" prefHeight="25.0" prefWidth="65.0" text="Refresh" />
             <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Add" />
             <Button layoutX="10.0" layoutY="39.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Edit" />
             <Button layoutX="10.0" layoutY="68.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Delete" />

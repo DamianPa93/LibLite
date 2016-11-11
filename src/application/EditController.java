@@ -17,6 +17,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.SingleSelectionModel;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -345,6 +348,23 @@ public class EditController implements Initializable {
 		
 		editTablePublishers.setItems(null);
 		editTablePublishers.setItems(dataPublishers);
+	}
+	
+	@FXML
+	private TabPane editTabPane;
+	
+	SingleSelectionModel<Tab> selectionModel;
+	
+	@FXML
+	private void handleChangeTab(){
+		selectionModel = editTabPane.getSelectionModel();
+		
+		if(selectionModel.isSelected(1)){
+			System.out.println("1");
+		}
+		if(selectionModel.isSelected(0)){
+			System.out.println("0");
+		}
 	}
 	
 	@Override
