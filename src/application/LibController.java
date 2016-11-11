@@ -12,4 +12,9 @@ public class LibController {
 	private void handleLibrary() throws IOException{
 		Main.showMainLibrary();
 	}
+	
+	@FXML
+	private void handleUsers() throws IOException{
+		Main.showMainEdit();
+	}
 }

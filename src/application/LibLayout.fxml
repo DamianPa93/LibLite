@@ -31,8 +31,7 @@
       <ToolBar orientation="VERTICAL" prefHeight="375.0" prefWidth="64.0" BorderPane.alignment="CENTER">
         <items>
           <Button mnemonicParsing="false" onAction="#handleLibrary" prefHeight="25.0" prefWidth="65.0" text="Library" />
-            <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Users" />
-            <Button layoutX="10.0" layoutY="39.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Workers" />
+            <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleUsers" prefHeight="25.0" prefWidth="65.0" text="Edit" />
             <Button layoutX="10.0" layoutY="68.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Loans" />
             <Button layoutX="10.0" layoutY="97.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Statistics" />
             <Button layoutX="10.0" layoutY="126.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="History" />

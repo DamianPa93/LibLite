@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane prefHeight="300.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.EditController">
+   <center>
+      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab text="Edit users">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="editTableUsers" layoutX="105.0" layoutY="36.0" prefHeight="271.0" prefWidth="527.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="29.0">
+                          <columns>
+                            <TableColumn fx:id="editTab1Col1" prefWidth="75.0" text="ID" />
+                            <TableColumn fx:id="editTab1Col2" prefWidth="75.0" text="USERNAME" />
+                              <TableColumn fx:id="editTab1Col3" prefWidth="75.0" text="PASSWORD" />
+                              <TableColumn fx:id="editTab1Col4" prefWidth="75.0" text="NAME" />
+                              <TableColumn fx:id="editTab1Col5" prefWidth="75.0" text="SURNAME" />
+                              <TableColumn fx:id="editTab1Col6" prefWidth="75.0" text="CITY" />
+                              <TableColumn fx:id="editTab1Col7" prefWidth="75.0" text="STREET" />
+                              <TableColumn fx:id="editTab1Col8" prefWidth="75.0" text="APARTMENT" />
+                              <TableColumn fx:id="editTab1Col9" prefWidth="75.0" text="POSTAL_CODE" />
+                              <TableColumn fx:id="editTab1Col10" prefWidth="75.0" text="PHONE" />
+                              <TableColumn fx:id="editTab1Col11" prefWidth="75.0" text="EMAIL" />
+                              <TableColumn fx:id="editTab1Col12" prefWidth="75.0" text="SECID" />
+                              <TableColumn fx:id="editTab1Col13" prefWidth="75.0" text="STATUS" />
+                          </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                        <TextField fx:id="editText" layoutX="75.0" layoutY="2.0" promptText="Enter search value" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="124.0" AnchorPane.topAnchor="2.0" />
+                        <Button layoutX="452.0" layoutY="2.0" mnemonicParsing="false" onAction="#initializeUsersDB" prefHeight="25.0" prefWidth="120.0" text="Search" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="Edit books">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="editTableBooks" layoutX="105.0" layoutY="36.0" prefHeight="271.0" prefWidth="527.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="29.0">
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                           <columns>
+                              <TableColumn fx:id="editTab2Col1" prefWidth="75.0" text="ID" />
+                              <TableColumn fx:id="editTab2Col2" prefWidth="75.0" text="TITLE" />
+                              <TableColumn fx:id="editTab2Col3" prefWidth="75.0" text="CATEGORY" />
+                              <TableColumn fx:id="editTab2Col4" prefWidth="75.0" text="AUTHOR" />
+                              <TableColumn fx:id="editTab2Col5" prefWidth="75.0" text="PUBLISHER" />
+                              <TableColumn fx:id="editTab2Col6" prefWidth="75.0" text="ISBN" />
+                              <TableColumn fx:id="editTab2Col7" prefWidth="75.0" text="DATE_OF_PUBLICATION" />
+                              <TableColumn fx:id="editTab2Col8" prefWidth="75.0" text="RATING" />
+                              <TableColumn fx:id="editTab2Col9" prefWidth="75.0" text="COMMENTS" />
+                           </columns>
+                        </TableView>
+                        <TextField fx:id="editText2" layoutX="75.0" layoutY="2.0" promptText="Enter search value" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="124.0" AnchorPane.topAnchor="2.0" />
+                        <Button layoutX="452.0" layoutY="2.0" mnemonicParsing="false" onAction="#initializeBooksDB" prefHeight="25.0" prefWidth="120.0" text="Search" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Edit categories">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="editTableCategories" layoutX="105.0" layoutY="36.0" prefHeight="271.0" prefWidth="527.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="29.0">
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                           <columns>
+                              <TableColumn fx:id="editTab3Col1" prefWidth="75.0" text="ID" />
+                              <TableColumn fx:id="editTab3Col2" prefWidth="75.0" text="CATEGORY" />
+                           </columns>
+                        </TableView>
+                        <TextField fx:id="editText3" layoutX="75.0" layoutY="2.0" promptText="Enter search value" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="124.0" AnchorPane.topAnchor="2.0" />
+                        <Button layoutX="452.0" layoutY="2.0" mnemonicParsing="false" onAction="#initializeCategoriesDB" prefHeight="25.0" prefWidth="120.0" text="Search" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Edit authors">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="editTableAuthors" layoutX="105.0" layoutY="36.0" prefHeight="271.0" prefWidth="527.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="29.0">
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                           <columns>
+                              <TableColumn fx:id="editTab4Col1" prefWidth="75.0" text="ID" />
+                              <TableColumn fx:id="editTab4Col2" prefWidth="75.0" text="NAME" />
+                              <TableColumn fx:id="editTab4Col3" prefWidth="75.0" text="SURNAME" />
+                              <TableColumn fx:id="editTab4Col4" prefWidth="75.0" text="COUNTRY" />
+                              <TableColumn fx:id="editTab4Col5" prefWidth="75.0" text="BIRTHDATE" />
+                              <TableColumn fx:id="editTab4Col6" prefWidth="75.0" text="COMMENTS" />
+                           </columns>
+                        </TableView>
+                        <TextField fx:id="editText4" layoutX="75.0" layoutY="2.0" promptText="Enter search value" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="124.0" AnchorPane.topAnchor="2.0" />
+                        <Button layoutX="452.0" layoutY="2.0" mnemonicParsing="false" onAction="#initializeAuthorsDB" prefHeight="25.0" prefWidth="120.0" text="Search" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Edit publishers">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="editTablePublishers" layoutX="105.0" layoutY="36.0" prefHeight="271.0" prefWidth="527.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="29.0">
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                           <columns>
+                              <TableColumn fx:id="editTab5Col1" prefWidth="75.0" text="ID" />
+                              <TableColumn fx:id="editTab5Col2" prefWidth="75.0" text="NAME" />
+                              <TableColumn fx:id="editTab5Col3" prefWidth="75.0" text="SURNAME" />
+                              <TableColumn fx:id="editTab5Col4" prefWidth="75.0" text="ORGANIZATION" />
+                              <TableColumn fx:id="editTab5Col5" prefWidth="75.0" text="COUNTRY" />
+                           </columns>
+                        </TableView>
+                        <TextField fx:id="editText5" layoutX="75.0" layoutY="2.0" promptText="Enter search value" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="124.0" AnchorPane.topAnchor="2.0" />
+                        <Button layoutX="452.0" layoutY="2.0" mnemonicParsing="false" onAction="#initializePublishersDB" prefHeight="25.0" prefWidth="120.0" text="Search" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </center>
+   <right>
+      <ToolBar orientation="VERTICAL" prefHeight="40.0" prefWidth="64.0" BorderPane.alignment="CENTER">
+        <items>
+          <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Refresh" />
+            <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Add" />
+            <Button layoutX="10.0" layoutY="39.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Edit" />
+            <Button layoutX="10.0" layoutY="68.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Delete" />
+        </items>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+         <padding>
+            <Insets left="4.0" right="4.0" top="90.0" />
+         </padding>
+      </ToolBar>
+   </right>
+   <top>
+      <Label text="Edit &gt;" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+   </top>
+</BorderPane>

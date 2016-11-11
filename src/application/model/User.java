@@ -15,6 +15,15 @@ public class User {
 	private final IntegerProperty books;
 	private final IntegerProperty orders;
 	private final StringProperty status;
+	//
+	private final IntegerProperty id;
+	private final StringProperty password;
+	private final StringProperty surname;
+	private final StringProperty city;
+	private final StringProperty street;
+	private final StringProperty apartment;
+	private final StringProperty postalCode;
+	private final IntegerProperty secId;
 	
 	public User(String login, String name, String address, String phone, String email,
 				String pesel, int books, int orders, String status){
@@ -27,6 +36,37 @@ public class User {
 		this.books = new SimpleIntegerProperty(books);
 		this.orders = new SimpleIntegerProperty(orders);
 		this.status = new SimpleStringProperty(status);
+		//
+		this.id = null;
+		this.password = null;
+		this.surname = null;
+		this.city = null;
+		this.street = null;
+		this.apartment = null;
+		this.postalCode = null;
+		this.secId = null;
+	}
+	
+	public User(int id, String login, String password, String name, String surname, String city, String street,
+				String apartment, String postalCode, String phone, String email, int secId, String status){
+		this.id = new SimpleIntegerProperty(id);
+		this.login = new SimpleStringProperty(login);
+		this.password = new SimpleStringProperty(password);
+		this.name = new SimpleStringProperty(name);
+		this.surname = new SimpleStringProperty(surname);
+		this.city = new SimpleStringProperty(city);
+		this.street = new SimpleStringProperty(street);
+		this.apartment = new SimpleStringProperty(apartment);
+		this.postalCode = new SimpleStringProperty(postalCode);
+		this.phone = new SimpleStringProperty(phone);
+		this.email = new SimpleStringProperty(email);
+		this.secId = new SimpleIntegerProperty(secId);
+		this.status = new SimpleStringProperty(status);
+		//
+		this.books = null;
+		this.address = null;
+		this.pesel = null;
+		this.orders = null;
 	}
 	
 	public String getLogin(){return login.get();}
@@ -38,6 +78,15 @@ public class User {
 	public int getBooks(){return books.get();}
 	public int getOrders(){return orders.get();}
 	public String getStatus(){return status.get();}
+	//
+	public int getId(){return id.get();}
+	public String getPassword(){return password.get();}
+	public String getSurname(){return surname.get();}
+	public String getCity(){return city.get();}
+	public String getStreet(){return street.get();}
+	public String getApartment(){return apartment.get();}
+	public String getPostalCode(){return postalCode.get();}
+	public int getSecId(){return secId.get();}
 	
 	public void setLogin(String value){login.set(value);}
 	public void setName(String value){name.set(value);}
@@ -48,6 +97,15 @@ public class User {
 	public void setBooks(int value){books.set(value);}
 	public void setOrders(int value){orders.set(value);}
 	public void setStatus(String value){status.set(value);}
+	//
+	public void setId(int value){id.set(value);}
+	public void setPassword(String value){password.set(value);}
+	public void setSurname(String value){surname.set(value);}
+	public void setCity(String value){city.set(value);}
+	public void setStreet(String value){street.set(value);}
+	public void setApartment(String value){apartment.set(value);}
+	public void setPostalCode(String value){postalCode.set(value);}
+	public void setSecId(int value){secId.set(value);}
 	
 	public StringProperty loginProperty(){return login;}
 	public StringProperty nameProperty(){return name;}
@@ -58,4 +116,13 @@ public class User {
 	public IntegerProperty booksProperty(){return books;}
 	public IntegerProperty ordersProperty(){return orders;}
 	public StringProperty statusProperty(){return status;}
+	//
+	public IntegerProperty idProperty(){return id;}
+	public StringProperty passwordProperty(){return password;}
+	public StringProperty surnameProperty(){return surname;}
+	public StringProperty cityProperty(){return city;}
+	public StringProperty streetProperty(){return street;}
+	public StringProperty apartmentProperty(){return apartment;}
+	public StringProperty postalCodeProperty(){return postalCode;}
+	public IntegerProperty secIdProperty(){return secId;}
 }

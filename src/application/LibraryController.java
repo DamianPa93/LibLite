@@ -12,6 +12,8 @@ import application.model.Book;
 import application.model.BookDetail;
 import application.model.DbConnection;
 import application.model.Loan;
+import application.model.Order;
+import application.model.Publisher;
 import application.model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -176,6 +178,76 @@ public class LibraryController implements Initializable
 	
 	private ObservableList<Loan> dataAdvancedLoan;
 	
+	//Advanced loan history search
+	@FXML
+	private TableView<Loan> advancedTable4;
+	
+	@FXML
+	private TableColumn<Loan, String> historyBorrowerCol;
+	
+	@FXML
+	private TableColumn<Loan, String> historyTitleCol;
+	
+	@FXML
+	private TableColumn<Loan, String> historyIsbnCol;
+	
+	@FXML
+	private TableColumn<Loan, String> historyDateFromCol;
+	
+	@FXML
+	private TableColumn<Loan, String> historyDateToCol;
+	
+	@FXML
+	private TableColumn<Loan, String> historyCommentsCol;
+	
+	@FXML
+	private TextField advancedText4;
+	
+	private ObservableList<Loan> dataAdvancedLoanHistory;
+	
+	//Advanced order search
+	
+	@FXML
+	private TableView<Order> advancedTable5;
+	
+	@FXML
+	private TableColumn<Order, String> ordersOrdererCol;
+	
+	@FXML
+	private TableColumn<Order, String> ordersTitleCol;
+	
+	@FXML
+	private TableColumn<Order, String> ordersOrderDateCol;
+	
+	@FXML
+	private TableColumn<Order, String> ordersStatusCol;
+	
+	@FXML
+	private TableColumn<Order, String> ordersCommentsCol;
+	
+	@FXML
+	private TextField advancedText5;
+	
+	private ObservableList<Order> dataAdvancedOrder;
+	
+	//advanced publisher search
+	@FXML
+	private TableView<Publisher> advancedTable6;
+	
+	@FXML
+	private TableColumn<Publisher, String> publisherNameCol;
+	
+	@FXML
+	private TableColumn<Publisher, String> publisherCountryCol;
+	
+	@FXML
+	private TableColumn<Publisher, Integer> publisherPubsCol;
+	
+	@FXML
+	private TextField advancedText6;
+	
+	private ObservableList<Publisher> dataAdvancedPublisher;
+	
 	@FXML
 	private void initializeLibraryDB() throws SQLException{
 		data = FXCollections.observableArrayList();
@@ -246,7 +318,7 @@ public class LibraryController implements Initializable
 			       "b.date_of_publication, b.book_rating, b.comments, o.id, o.order_date, " +
 			       "l.loan_date " +
 			"from tbl_book b join tbl_author a on b.id_author = a.id " +
-			"join tbl_category c on (b.id_category_1 = c.id " +
+			"left join tbl_category c on (b.id_category_1 = c.id " +
 									 "OR b.id_category_2 = c.id " +
 									 "OR b.id_category_3 = c.id) " +
 			"left join tbl_publisher p on b.id_publisher = p.id " +
@@ -364,6 +436,102 @@ public class LibraryController implements Initializable
 		
 	}
 	
+	@FXML
+	private void initializeAdvancedLoanHistoryDB() throws SQLException{
+		dataAdvancedLoanHistory = FXCollections.observableArrayList();
+		
+		String searchText = advancedText4.getText();
+		
+		String sql = "select x.* from ("
+				+ "select concat(u.name, ' ',u.surname) borrower, b.title, b.isbn,"
+				+ "l.loan_date date_from, DATE_ADD(l.loan_date, INTERVAL 14 DAY) return_to, l.comments "
+				+ "from tbl_loan_history l join tbl_user u on u.id = l.user_id "
+				+ "join tbl_book b on b.id = l.book_id ) x "
+				+ "where x.borrower like '%" + searchText + "%' "
+				+ "or x.title like '%" + searchText + "%' "
+				+ "or x.isbn like '%" + searchText + "%'";
+		
+		System.out.println(searchText);
+		PreparedStatement pst = conn.prepareStatement(sql);
+		ResultSet rs = pst.executeQuery(sql);
+		
+		while(rs.next()){
+			System.out.println(rs.getString(3) + "|" + rs.getString(4));
+			dataAdvancedLoanHistory.add(new Loan(rs.getString(1),rs.getString(2),rs.getString(3),
+					rs.getDate(4).toString(),rs.getDate(4).toString(),rs.getString(6)));
+		}
+		
+		historyBorrowerCol.setCellValueFactory(new PropertyValueFactory<>("borrower"));
+		historyTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+		historyIsbnCol.setCellValueFactory(new PropertyValueFactory<>("isbn"));
+		historyDateFromCol.setCellValueFactory(new PropertyValueFactory<>("dateFrom"));
+		historyDateToCol.setCellValueFactory(new PropertyValueFactory<>("returnTo"));
+		historyCommentsCol.setCellValueFactory(new PropertyValueFactory<>("comments"));
+		
+		advancedTable4.setItems(null);
+		advancedTable4.setItems(dataAdvancedLoanHistory);
+	}
+	
+	@FXML
+	private void initializeAdvancedOrderDB() throws SQLException{
+		dataAdvancedOrder = FXCollections.observableArrayList();
+		
+		String searchText = advancedText5.getText();
+		
+		String sql = "select concat(u.name, ' ',u.surname) name, b.title, o.order_date, o.status, o.comments "
+				+ "from tbl_order o join tbl_user u on o.user_id = u.id "
+				+ "join tbl_book b on o.book_id = b.id "
+				+ "where concat(u.name, ' ',u.surname) like '%" + searchText + "%' "
+				+ "or b.title like '%" + searchText + "%'";
+		
+		System.out.println(searchText);
+		PreparedStatement pst = conn.prepareStatement(sql);
+		ResultSet rs = pst.executeQuery(sql);
+		
+		while(rs.next()){
+			System.out.println(rs.getString(3) + "|" + rs.getString(4));
+			dataAdvancedOrder.add(new Order(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5)));
+		}
+		
+		ordersOrdererCol.setCellValueFactory(new PropertyValueFactory<>("orderer"));
+		ordersTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+		ordersOrderDateCol.setCellValueFactory(new PropertyValueFactory<>("orderDate"));
+		ordersStatusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
+		ordersCommentsCol.setCellValueFactory(new PropertyValueFactory<>("comments"));
+		
+		advancedTable5.setItems(null);
+		advancedTable5.setItems(dataAdvancedOrder);
+	}
+	
+	@FXML
+	private void initializeAdvancedPublisherDB() throws SQLException{
+		dataAdvancedPublisher = FXCollections.observableArrayList();
+		
+		String searchText = advancedText6.getText();
+		
+		String sql = "select trim(concat(ifnull(p.name, ''),' ', "
+				+ " ifnull(p.second_name, ''),' ',ifnull(p.organization, ''))) name, "
+				+ "p.country, (select count(*) from tbl_book b where b.id_publisher = p.id) pubs "
+				+ "from tbl_publisher p "
+				+ "where trim(concat(ifnull(p.name, ''),' ', "
+				+ "ifnull(p.second_name, ''),' ',ifnull(p.organization, ''))) like '%"+ searchText + "%'";
+		
+		System.out.println(searchText);
+		PreparedStatement pst = conn.prepareStatement(sql);
+		ResultSet rs = pst.executeQuery(sql);
+		
+		while(rs.next()){
+			System.out.println(rs.getString(2) + "|" + rs.getString(3));
+			dataAdvancedPublisher.add(new Publisher(rs.getString(1),rs.getString(2),rs.getInt(3)));
+		}
+		
+		publisherNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+		publisherCountryCol.setCellValueFactory(new PropertyValueFactory<>("country"));
+		publisherPubsCol.setCellValueFactory(new PropertyValueFactory<>("pubs"));
+		
+		advancedTable6.setItems(null);
+		advancedTable6.setItems(dataAdvancedPublisher);
+	}
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {

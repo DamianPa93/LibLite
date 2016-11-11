@@ -48,6 +48,13 @@ public class Main extends Application {
 		mainBorderLayout.setCenter(mainLibrary);
 	}
 	
+	public static void showMainEdit() throws IOException{
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(Main.class.getResource("EditLayout.fxml"));
+		BorderPane mainEdit = loader.load();
+		mainBorderLayout.setCenter(mainEdit);
+	}
+	
 	public static void main(String[] args) {
 		launch(args);
 	}

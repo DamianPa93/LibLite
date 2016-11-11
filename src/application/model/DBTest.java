@@ -16,16 +16,13 @@ public class DBTest {
 			//Statement myStmt = myConn.createStatement(); 
 			PreparedStatement pst = null;
 			//3. Execute Query
-			//String dupa = "a";
+			String dupa = "a";
 			
-		String q =	"select x.* from ("
-				+ "select concat(u.name, ' ',u.surname) borrower, b.title, b.isbn,"
-				+ "l.loan_date date_from, DATE_ADD(l.loan_date, INTERVAL 14 DAY) return_to, l.comments "
-				+ "from tbl_loan l join tbl_user u on u.id = l.user_id "
-				+ "join tbl_book b on b.id = l.book_id ) x "
-				+ "where x.borrower like '%st%' "
-				+ "or x.title like '%st%' "
-				+ "or x.isbn like '%st%'";
+		String q =	"select concat(u.name, ' ',u.surname) name, b.title, o.order_date, o.status, o.comments "
+				+ "from tbl_order o join tbl_user u on o.user_id = u.id "
+				+ "join tbl_book b on o.book_id = b.id "
+				+ "where concat(u.name, ' ',u.surname) like '%" + dupa + "%' "
+				+ "or b.title like '%" + dupa + "%'";
 		
 		
 			
