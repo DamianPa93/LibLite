@@ -55,6 +55,13 @@ public class Main extends Application {
 		mainBorderLayout.setCenter(mainEdit);
 	}
 	
+	public static void showAuthorAddDialog() throws IOException{
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(Main.class.getResource("AuthorAddDialog.fxml"));
+		BorderPane authorAddDialog = loader.load();
+		mainBorderLayout.setCenter(authorAddDialog);
+	}
+	
 	public static void main(String[] args) {
 		launch(args);
 	}

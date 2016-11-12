@@ -14,11 +14,11 @@ public class BookDetail {
 	private final StringProperty dateOfPublication;
 	private final IntegerProperty rating;
 	private final StringProperty comments;
-	//private final IntegerProperty orderId;
-	//private final StringProperty orderDate;
-	//private final StringProperty loanDate;
-	//
 	private final IntegerProperty id;
+	public Category cat;
+	public Category cat2;
+	public Category cat3;
+	private String strRating;
 	
 	public BookDetail(String isbn, String author, String category, String title, String publisher, String dateOfPublication, 
 				  int rating, String comments){
@@ -31,12 +31,27 @@ public class BookDetail {
 		this.dateOfPublication = new SimpleStringProperty(dateOfPublication);
 		this.rating = new SimpleIntegerProperty(rating);
 		this.comments = new SimpleStringProperty(comments);
-		//this.orderId = null;
-		//this.orderDate =  null;
-		//this.loanDate = null;
-		//
 		this.id = null;
 	}
+	
+	public BookDetail(String isbn, String author, Category category, Category category2, Category category3,
+					  String title, String publisher, String dateOfPublication, 
+					  String strRating, String comments){
+	
+	this.isbn = new SimpleStringProperty(isbn);
+	this.author = new SimpleStringProperty(author);
+	this.category = null;
+	this.cat = category;
+	this.cat2 = category2;
+	this.cat3 = category3;
+	this.title = new SimpleStringProperty(title);
+	this.publisher = new SimpleStringProperty(publisher);
+	this.dateOfPublication = new SimpleStringProperty(dateOfPublication);
+	this.strRating = strRating;
+	this.comments = new SimpleStringProperty(comments);
+	this.id = null;
+	this.rating = null;
+}
 	
 	public BookDetail(int id, String title, String category, String author, String publisher, String isbn, String dateOfPublication,
 			int rating, String comments){
@@ -49,10 +64,6 @@ public class BookDetail {
 		this.dateOfPublication = new SimpleStringProperty(dateOfPublication);
 		this.rating = new SimpleIntegerProperty(rating);
 		this.comments = new SimpleStringProperty(comments);
-		//
-		//this.orderDate = null;
-		//this.loanDate = null;
-		//this.orderId = null;
 	}
 
 	public String getIsbn(){return isbn.get();}
@@ -63,10 +74,6 @@ public class BookDetail {
 	public String getDateOfPublication(){return dateOfPublication.get();}
 	public int getRating(){return rating.get();}
 	public String getComments(){return comments.get();}
-	//public int getOrderId(){return orderId.get();}
-	//public String getOrderDate(){return orderDate.get();}
-	//public String getLoanDate(){return loanDate.get();}
-	//
 	public int getId(){return id.get();}
 	
 	public void setIsbn(String value){isbn.set(value);}
@@ -77,10 +84,6 @@ public class BookDetail {
 	public void setDateOfPublication(String value){dateOfPublication.set(value);}
 	public void setRating(int value){rating.set(value);}
 	public void setComments(String value){comments.set(value);}
-	//public void setOrderId(int value){orderId.set(value);}
-	//public void setOrderDate(String value){orderDate.set(value);}
-	//public void setLoanDate(String value){loanDate.set(value);}
-	//
 	public void setId(int value){id.set(value);}
 	
 	public StringProperty isbnProperty(){return isbn;}
@@ -91,9 +94,5 @@ public class BookDetail {
 	public StringProperty dateOfPublicationProperty(){return dateOfPublication;}
 	public IntegerProperty ratingProperty(){return rating;}
 	public StringProperty commentsProperty(){return comments;}
-	//public IntegerProperty orderIdProperty(){return orderId;}
-	//public StringProperty orderDateProperty(){return orderDate;}
-	//public StringProperty loanDateProperty(){return loanDate;}
-	//
 	public IntegerProperty idProperty(){return id;}
 }

@@ -34,6 +34,16 @@ public class Publisher {
 		this.pubs = null;
 	}
 	
+	public Publisher(String name, String surname, String organization, String country){
+		this.name = new SimpleStringProperty(name);
+		this.surname = new SimpleStringProperty(surname);
+		this.organization = new SimpleStringProperty(organization);
+		this.country = new SimpleStringProperty(country);
+		//
+		this.pubs = null;
+		this.id = null;
+	}
+	
 	public String getName(){return name.get();}
 	public String getCountry(){return country.get();}
 	public int getPubs(){return pubs.get();}

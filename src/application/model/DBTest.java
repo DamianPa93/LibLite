@@ -3,7 +3,6 @@ package application.model;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 
 public class DBTest {
 
@@ -16,7 +15,7 @@ public class DBTest {
 			//Statement myStmt = myConn.createStatement(); 
 			PreparedStatement pst = null;
 			//3. Execute Query
-			String dupa = "a";
+			//String dupa = "a";
 			
 			String sql = "delete from tbl_admin where id = 4";
 		

@@ -254,14 +254,13 @@ public class LibraryController implements Initializable
 		
 		String searchText = bookText.getText();
 		
-		String sql = "select distinct a.isbn, b.name, a.title, group_concat(c.category separator ', ')"
-				+ " from tbl_book a, tbl_author b, tbl_category c"
-				+ " where a.id_author = b.id"
-				+ " and title like '%" + searchText + "%'" 
-				+ " and (a.id_category_1 = c.id OR a.id_category_2 = c.id OR a.id_category_3 = c.id)"
-				+ " group by a.isbn, b.name, a.title"; 
+		String sql = "select distinct b.isbn, a.name, b.title, group_concat(c.category separator ', ') "
+				+ "from tbl_book b "
+				+ "left join tbl_author a on b.id_author = a.id "
+				+ "left join tbl_category c on (b.id_category_1 = c.id OR b.id_category_2 = c.id OR b.id_category_3 = c.id) "
+				+ "where b.title like '%" + searchText + "%' "
+				+ "group by b.isbn, a.name, b.title"; 
 		
-		//ResultSet rs = conn.createStatement().executeQuery(sql);
 		PreparedStatement pst = conn.prepareStatement(sql);
 		ResultSet rs = pst.executeQuery(sql);
 		
@@ -295,12 +294,15 @@ public class LibraryController implements Initializable
 		while(rs.next()){
 			System.out.println(rs.getString(1) + "|" + rs.getString(2));
 			data2.add(new Author(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4)));
+			System.out.println("while");
 		}
 		
+		System.out.println("gowno");
 		libraryNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 		libraryBirthColumn.setCellValueFactory(new PropertyValueFactory<>("birth"));
 		libraryCountryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
 		libraryCommentsColumn.setCellValueFactory(new PropertyValueFactory<>("comments"));
+		System.out.println("pizda"); 
 		
 		libraryTable2.setItems(null);
 		libraryTable2.setItems(data2);
@@ -316,7 +318,7 @@ public class LibraryController implements Initializable
 				+ " group_concat(c.category separator ', ') as category, "
 				+ " concat(p.name, ' ', p.second_name, ' ', p.organization) as publisher, "
 				+ " b.date_of_publication, b.book_rating, b.comments "
-				+ "from tbl_book b join tbl_author a on b.id_author = a.id "
+				+ "from tbl_book b left join tbl_author a on b.id_author = a.id "
 				+ "left join tbl_category c on (b.id_category_1 = c.id "
 				+ " OR b.id_category_2 = c.id "
 				+ " OR b.id_category_3 = c.id) "

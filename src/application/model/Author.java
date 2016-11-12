@@ -14,6 +14,18 @@ public class Author {
 	private final IntegerProperty id;
 	private final StringProperty surname;
 	
+	//public String strId;
+	
+	public Author(int id, String name, String surname){
+		this.id = new SimpleIntegerProperty(id);
+		this.name = new SimpleStringProperty(name);
+		this.surname = new SimpleStringProperty(surname);
+		this.birth = null;
+		this.country = null;
+		//this.id = null;
+		this.comments = null;
+	}
+	
 	public Author(String name, String birth, String country, String comments){
 		this.name = new SimpleStringProperty(name);
 		this.birth = new SimpleStringProperty(birth);
@@ -31,6 +43,16 @@ public class Author {
 		this.country = new SimpleStringProperty(country);
 		this.birth = new SimpleStringProperty(birth);
 		this.comments = new SimpleStringProperty(comments);
+	}
+	
+	public Author(String name, String surname, String country, String birth, String comments){
+		this.name = new SimpleStringProperty(name);
+		this.surname = new SimpleStringProperty(surname);
+		this.country = new SimpleStringProperty(country);
+		this.birth = new SimpleStringProperty(birth);
+		this.comments = new SimpleStringProperty(comments);
+		//
+		this.id = null;
 	}
 	
 	public String getName(){return name.get();}
@@ -72,4 +94,9 @@ public class Author {
 	//
 	public IntegerProperty idProperty(){return id;}
 	public StringProperty surnameProperty(){return surname;}
+	
+	@Override
+	public String toString(){
+		return name.get() + ", " + surname.get();
+	}
 }

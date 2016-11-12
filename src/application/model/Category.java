@@ -14,6 +14,11 @@ public class Category {
 		this.category = new SimpleStringProperty(category);
 	}
 	
+	public Category(String category){
+		this.category = new SimpleStringProperty(category);
+		this.id = null;
+	}
+	
 	public int getId(){return id.get();}
 	public String getCategory(){return category.get();}
 	
@@ -22,4 +27,9 @@ public class Category {
 	
 	public IntegerProperty idProperty(){return id;}
 	public StringProperty categoryProperty(){return category;}
+	
+	@Override
+	public String toString(){
+		return getCategory();
+	}
 }
