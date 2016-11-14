@@ -33,7 +33,7 @@
                            </columnResizePolicy>
                         </TableView>
                         <TextField fx:id="bookText" layoutX="7.0" layoutY="2.0" prefHeight="25.0" promptText="Enter book title" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="124.0" AnchorPane.topAnchor="2.0" />
-                        <Button layoutX="338.0" layoutY="2.0" mnemonicParsing="false" onAction="#initializeLibraryDB" prefHeight="25.0" prefWidth="120.0" text="Search" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
+                        <Button layoutX="338.0" layoutY="2.0" mnemonicParsing="false" onAction="#initializeLibraryDB" prefHeight="25.0" prefWidth="120.0" text="Search / Refresh" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
                      </children>
                   </AnchorPane>
             </content>
@@ -43,7 +43,7 @@
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
                         <TextField fx:id="authorText" prefHeight="25.0" promptText="Enter author name" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="124.0" AnchorPane.topAnchor="2.0" />
-                        <Button layoutX="180.0" layoutY="2.0" mnemonicParsing="false" onAction="#initializeAuthorDB" prefHeight="25.0" prefWidth="120.0" text="Search" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
+                        <Button layoutX="180.0" layoutY="2.0" mnemonicParsing="false" onAction="#initializeAuthorDB" prefHeight="25.0" prefWidth="120.0" text="Search / Refresh" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
                         <TableView fx:id="libraryTable2" layoutX="123.0" layoutY="37.0" prefHeight="251.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="29.0">
                           <columns>
                             <TableColumn fx:id="libraryNameColumn" prefWidth="75.0" text="NAME" />
@@ -69,7 +69,7 @@
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
                                           <TextField fx:id="advancedText" layoutX="38.0" layoutY="14.0" promptText="Enter search value" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="124.0" AnchorPane.topAnchor="2.0" />
-                                          <Button layoutX="520.0" layoutY="2.0" mnemonicParsing="false" onAction="#initializeAdvancedBookDB" prefHeight="25.0" prefWidth="120.0" text="Search" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
+                                          <Button layoutX="520.0" layoutY="2.0" mnemonicParsing="false" onAction="#initializeAdvancedBookDB" prefHeight="25.0" prefWidth="120.0" text="Search / Refresh" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
                                           <TableView fx:id="advancedTable" layoutX="100.0" layoutY="27.0" prefHeight="220.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="29.0">
                                             <columns>
                                               <TableColumn fx:id="advancedIsbnCol" prefWidth="75.0" text="ISBN" />
@@ -94,7 +94,7 @@
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
                                           <TextField fx:id="advancedText2" layoutX="14.0" layoutY="8.0" prefHeight="25.0" promptText="Enter search value" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="124.0" AnchorPane.topAnchor="2.0" />
-                                          <Button layoutX="375.0" layoutY="8.0" mnemonicParsing="false" onAction="#initializeAdvancedUserDB" prefHeight="25.0" prefWidth="120.0" text="Search" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
+                                          <Button layoutX="375.0" layoutY="8.0" mnemonicParsing="false" onAction="#initializeAdvancedUserDB" prefHeight="25.0" prefWidth="120.0" text="Search / Refresh" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
                                           <TableView fx:id="advancedTable2" layoutX="175.0" layoutY="14.0" prefHeight="220.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="29.0">
                                             <columns>
                                               <TableColumn fx:id="userLoginCol" prefWidth="75.0" text="LOGIN" />
@@ -132,7 +132,7 @@
                                              </columnResizePolicy>
                                           </TableView>
                                           <TextField fx:id="advancedText3" layoutX="35.0" layoutY="2.0" prefHeight="25.0" promptText="Enter search value" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="124.0" AnchorPane.topAnchor="2.0" />
-                                          <Button layoutX="510.0" layoutY="2.0" mnemonicParsing="false" onAction="#initializeAdvancedLoanDB" prefHeight="25.0" prefWidth="120.0" text="Search" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
+                                          <Button layoutX="510.0" layoutY="2.0" mnemonicParsing="false" onAction="#initializeAdvancedLoanDB" prefHeight="25.0" prefWidth="120.0" text="Search / Refresh" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
                                        </children></AnchorPane>
                                  </content>
                               </Tab>
@@ -154,7 +154,7 @@
                                              </columnResizePolicy>
                                           </TableView>
                                           <TextField fx:id="advancedText4" layoutX="14.0" layoutY="2.0" prefHeight="25.0" promptText="Enter search value" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="124.0" AnchorPane.topAnchor="2.0" />
-                                          <Button layoutX="503.0" layoutY="2.0" mnemonicParsing="false" onAction="#initializeAdvancedLoanHistoryDB" prefHeight="25.0" prefWidth="120.0" text="Search" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
+                                          <Button layoutX="503.0" layoutY="2.0" mnemonicParsing="false" onAction="#initializeAdvancedLoanHistoryDB" prefHeight="25.0" prefWidth="120.0" text="Search / Refresh" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
                                        </children></AnchorPane>
                                  </content>
                               </Tab>
@@ -175,7 +175,7 @@
                                              </columns>
                                           </TableView>
                                           <TextField fx:id="advancedText5" layoutX="14.0" layoutY="2.0" prefHeight="25.0" promptText="Enter search value" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="124.0" AnchorPane.topAnchor="2.0" />
-                                          <Button layoutX="503.0" layoutY="2.0" mnemonicParsing="false" onAction="#initializeAdvancedOrderDB" prefHeight="25.0" prefWidth="120.0" text="Search" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
+                                          <Button layoutX="503.0" layoutY="2.0" mnemonicParsing="false" onAction="#initializeAdvancedOrderDB" prefHeight="25.0" prefWidth="120.0" text="Search / Refresh" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
                                        </children>
                                     </AnchorPane>
                                  </content>
@@ -195,7 +195,7 @@
                                              </columns>
                                           </TableView>
                                           <TextField fx:id="advancedText6" layoutX="14.0" layoutY="2.0" prefHeight="25.0" promptText="Enter search value" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="124.0" AnchorPane.topAnchor="2.0" />
-                                          <Button layoutX="503.0" layoutY="2.0" mnemonicParsing="false" onAction="#initializeAdvancedPublisherDB" prefHeight="25.0" prefWidth="120.0" text="Search" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
+                                          <Button layoutX="503.0" layoutY="2.0" mnemonicParsing="false" onAction="#initializeAdvancedPublisherDB" prefHeight="25.0" prefWidth="120.0" text="Search / Refresh" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
                                        </children>
                                     </AnchorPane>
                                  </content>

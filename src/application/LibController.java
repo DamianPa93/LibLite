@@ -17,4 +17,9 @@ public class LibController {
 	private void handleUsers() throws IOException{
 		Main.showMainEdit();
 	}
+	
+	@FXML
+	private void handleText() throws IOException{
+		Main.showAddUserDialog();
+	}
 }

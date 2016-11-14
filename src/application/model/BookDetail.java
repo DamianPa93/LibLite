@@ -18,7 +18,9 @@ public class BookDetail {
 	public Category cat;
 	public Category cat2;
 	public Category cat3;
-	private String strRating;
+	public Publisher pub;
+	public Author auth;
+	public String strRating;
 	
 	public BookDetail(String isbn, String author, String category, String title, String publisher, String dateOfPublication, 
 				  int rating, String comments){
@@ -34,18 +36,20 @@ public class BookDetail {
 		this.id = null;
 	}
 	
-	public BookDetail(String isbn, String author, Category category, Category category2, Category category3,
-					  String title, String publisher, String dateOfPublication, 
+	public BookDetail(String isbn, Author author, Category category, Category category2, Category category3,
+					  String title, Publisher publisher, String dateOfPublication, 
 					  String strRating, String comments){
 	
 	this.isbn = new SimpleStringProperty(isbn);
-	this.author = new SimpleStringProperty(author);
+	this.author = null;
+	this.auth = author;
 	this.category = null;
 	this.cat = category;
 	this.cat2 = category2;
 	this.cat3 = category3;
 	this.title = new SimpleStringProperty(title);
-	this.publisher = new SimpleStringProperty(publisher);
+	this.publisher = null;
+	this.pub = publisher;
 	this.dateOfPublication = new SimpleStringProperty(dateOfPublication);
 	this.strRating = strRating;
 	this.comments = new SimpleStringProperty(comments);

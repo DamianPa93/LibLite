@@ -14,6 +14,16 @@ public class Publisher {
 	private final StringProperty surname;
 	private final StringProperty organization;
 	
+	public Publisher(int id, String name){
+		this.id = new SimpleIntegerProperty(id);
+		this.name = new SimpleStringProperty(name);
+		this.surname = null;
+		this.organization = null;
+		//
+		this.pubs = null;
+		this.country = null;
+	}
+	
 	public Publisher(String name, String country, int pubs){
 		this.name = new SimpleStringProperty(name);
 		this.country = new SimpleStringProperty(country);
@@ -67,4 +77,9 @@ public class Publisher {
 	public IntegerProperty idProperty(){return id;}
 	public StringProperty surnameProperty(){return surname;}
 	public StringProperty organizationProperty(){return organization;}
+	
+	@Override
+	public String toString(){
+		return name.get();
+	}
 }

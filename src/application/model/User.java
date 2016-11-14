@@ -25,6 +25,27 @@ public class User {
 	private final StringProperty postalCode;
 	private final IntegerProperty secId;
 	
+	public User(String login, String password, String name, String surname, String city, String street,
+			String apartment, String postalCode, String phone, String email, String pesel, String status){
+		this.login = new SimpleStringProperty(login);
+		this.password = new SimpleStringProperty(password);
+		this.name = new SimpleStringProperty(name);
+		this.surname = new SimpleStringProperty(surname);
+		this.city = new SimpleStringProperty(city);
+		this.street = new SimpleStringProperty(street);
+		this.apartment = new SimpleStringProperty(apartment);
+		this.postalCode = new SimpleStringProperty(postalCode);
+		this.phone = new SimpleStringProperty(phone);
+		this.email = new SimpleStringProperty(email);
+		this.pesel = new SimpleStringProperty(pesel);
+		this.status = new SimpleStringProperty(status);
+		this.orders = null;
+		this.address = null;
+		this.id = null;
+		this.books = null;
+		this.secId = null;
+	}
+	
 	public User(String login, String name, String address, String phone, String email,
 				String pesel, int books, int orders, String status){
 		this.login = new SimpleStringProperty(login);

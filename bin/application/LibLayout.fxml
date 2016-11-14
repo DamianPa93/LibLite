@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
@@ -39,4 +42,13 @@
         </items>
       </ToolBar>
    </left>
+   <center>
+      <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+         <image>
+            <Image url="@view/login.png" />
+         </image>
+         <BorderPane.margin>
+            <Insets right="60.0" />
+         </BorderPane.margin></ImageView>
+   </center>
 </BorderPane>

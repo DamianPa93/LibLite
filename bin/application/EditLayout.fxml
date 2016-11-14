@@ -36,7 +36,7 @@
                            </columnResizePolicy>
                         </TableView>
                         <TextField fx:id="editText" layoutX="75.0" layoutY="2.0" promptText="Enter search value" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="124.0" AnchorPane.topAnchor="2.0" />
-                        <Button layoutX="452.0" layoutY="2.0" mnemonicParsing="false" onAction="#initializeUsersDB" prefHeight="25.0" prefWidth="120.0" text="Search" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
+                        <Button layoutX="452.0" layoutY="2.0" mnemonicParsing="false" onAction="#initializeUsersDB" prefHeight="25.0" prefWidth="120.0" text="Search / Refresh" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
                      </children></AnchorPane>
             </content>
           </Tab>
@@ -61,12 +61,12 @@
                            </columns>
                         </TableView>
                         <TextField fx:id="editText2" layoutX="75.0" layoutY="2.0" promptText="Enter search value" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="124.0" AnchorPane.topAnchor="2.0" />
-                        <Button layoutX="452.0" layoutY="2.0" mnemonicParsing="false" onAction="#initializeBooksDB" prefHeight="25.0" prefWidth="120.0" text="Search" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
+                        <Button layoutX="452.0" layoutY="2.0" mnemonicParsing="false" onAction="#initializeBooksDB" prefHeight="25.0" prefWidth="120.0" text="Search / Refresh" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
                      </children>
                   </AnchorPane>
                </content>
             </Tab>
-            <Tab text="Edit categories">
+            <Tab text="Edit Categories">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -80,7 +80,7 @@
                            </columns>
                         </TableView>
                         <TextField fx:id="editText3" layoutX="75.0" layoutY="2.0" promptText="Enter search value" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="124.0" AnchorPane.topAnchor="2.0" />
-                        <Button layoutX="452.0" layoutY="2.0" mnemonicParsing="false" onAction="#initializeCategoriesDB" prefHeight="25.0" prefWidth="120.0" text="Search" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
+                        <Button layoutX="452.0" layoutY="2.0" mnemonicParsing="false" onAction="#initializeCategoriesDB" prefHeight="25.0" prefWidth="120.0" text="Search / Refresh" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
                      </children>
                   </AnchorPane>
                </content>
@@ -103,7 +103,7 @@
                            </columns>
                         </TableView>
                         <TextField fx:id="editText4" layoutX="75.0" layoutY="2.0" promptText="Enter search value" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="124.0" AnchorPane.topAnchor="2.0" />
-                        <Button layoutX="452.0" layoutY="2.0" mnemonicParsing="false" onAction="#initializeAuthorsDB" prefHeight="25.0" prefWidth="120.0" text="Search" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
+                        <Button layoutX="452.0" layoutY="2.0" mnemonicParsing="false" onAction="#initializeAuthorsDB" prefHeight="25.0" prefWidth="120.0" text="Search / Refresh" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
                      </children>
                   </AnchorPane>
                </content>
@@ -125,7 +125,7 @@
                            </columns>
                         </TableView>
                         <TextField fx:id="editText5" layoutX="75.0" layoutY="2.0" promptText="Enter search value" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="124.0" AnchorPane.topAnchor="2.0" />
-                        <Button layoutX="452.0" layoutY="2.0" mnemonicParsing="false" onAction="#initializePublishersDB" prefHeight="25.0" prefWidth="120.0" text="Search" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
+                        <Button layoutX="452.0" layoutY="2.0" mnemonicParsing="false" onAction="#initializePublishersDB" prefHeight="25.0" prefWidth="120.0" text="Search / Refresh" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
                      </children>
                   </AnchorPane>
                </content>
@@ -136,9 +136,8 @@
    <right>
       <ToolBar orientation="VERTICAL" prefHeight="40.0" prefWidth="64.0" BorderPane.alignment="CENTER">
         <items>
-          <Button mnemonicParsing="false" onAction="#handleRefreshButton" prefHeight="25.0" prefWidth="65.0" text="Refresh" />
             <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleAddButton" prefHeight="25.0" prefWidth="65.0" text="Add" />
-            <Button layoutX="10.0" layoutY="39.0" mnemonicParsing="false" onAction="#handleTest" prefHeight="25.0" prefWidth="65.0" text="Edit" />
+            <Button layoutX="10.0" layoutY="39.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Edit" />
             <Button layoutX="10.0" layoutY="68.0" mnemonicParsing="false" onAction="#handleDeleteButton" prefHeight="25.0" prefWidth="65.0" text="Delete" />
         </items>
          <BorderPane.margin>
