@@ -21,6 +21,11 @@ public class BookDetail {
 	public Publisher pub;
 	public Author auth;
 	public String strRating;
+	public int cat1Id;
+	public int cat2Id;
+	public int cat3Id;
+	public int authId;
+	public int pubId;
 	
 	public BookDetail(String isbn, String author, String category, String title, String publisher, String dateOfPublication, 
 				  int rating, String comments){
@@ -58,7 +63,7 @@ public class BookDetail {
 }
 	
 	public BookDetail(int id, String title, String category, String author, String publisher, String isbn, String dateOfPublication,
-			int rating, String comments){
+			int rating, String comments, int cat1Id, int cat2Id, int cat3Id, int authId,int pubId){
 		this.id = new SimpleIntegerProperty(id);
 		this.title = new SimpleStringProperty(title);
 		this.category = new SimpleStringProperty(category);
@@ -68,6 +73,12 @@ public class BookDetail {
 		this.dateOfPublication = new SimpleStringProperty(dateOfPublication);
 		this.rating = new SimpleIntegerProperty(rating);
 		this.comments = new SimpleStringProperty(comments);
+		//
+		this.cat1Id = cat1Id;
+		this.cat2Id = cat2Id;
+	    this.cat3Id = cat3Id;
+	    this.authId = authId;
+	    this.pubId = pubId;
 	}
 
 	public String getIsbn(){return isbn.get();}

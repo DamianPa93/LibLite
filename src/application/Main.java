@@ -75,6 +75,14 @@ public class Main extends Application {
 		dialogStage.showAndWait();
 	}
 	
+/*	public static void showEditPublisherDialog() throws IOException{
+		FXMLLoader loader = new FXMLLoader(Main.class.getResource("EditPublisherDialog.fxml"));
+		Parent root = (Parent)loader.load();
+		dialogStage = new Stage();
+		dialogStage.setScene(new Scene(root));
+		dialogStage.showAndWait();
+	} */
+	
 	public static void showAddAuthorDialog() throws IOException{
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("AddAuthorDialog.fxml"));
 		Parent root = (Parent)loader.load();

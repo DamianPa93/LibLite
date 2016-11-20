@@ -17,6 +17,7 @@ public class DBTest {
 			//3. Execute Query
 			//String dupa = "a";
 			
+			
 			String sql = "delete from tbl_admin where id = 4";
 		
 			pst = myConn.prepareStatement(sql);

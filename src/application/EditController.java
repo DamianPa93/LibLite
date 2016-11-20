@@ -18,7 +18,10 @@ import application.model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
@@ -30,8 +33,11 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 public class EditController implements Initializable {
+	
+	static Stage dialogStage;
 	
 	public EditController(){}
 	
@@ -242,7 +248,7 @@ public class EditController implements Initializable {
 				+ "concat(a.name, ' ',a.surname) author, "
 				+ "trim(concat(ifnull(p.name, ''),' ', "
 				+ "ifnull(p.second_name, ''),' ',ifnull(p.organization, ''))) publisher, "
-				+ " b.isbn, b.date_of_publication, b.book_rating, b.comments "
+				+ " b.isbn, b.date_of_publication, b.book_rating, b.comments , b.id_category_1, b.id_category_2, b.id_category_3,b.id_author, b.id_publisher "
 				+ "from tbl_book b "
 				+ "left join tbl_category c on (b.id_category_1 = c.id "
 				+ "or b.id_category_2 = c.id "
@@ -255,12 +261,14 @@ public class EditController implements Initializable {
 				+ "or x.author like '%"+ searchText +"%' "
 				+ "or x.category like '%"+ searchText +"%'";
 		
+		
 		PreparedStatement pst = conn.prepareStatement(sql);
 		ResultSet rs = pst.executeQuery(sql);
 		
 		while(rs.next()){
 			dataBooks.add(new BookDetail(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),
-					rs.getString(6),rs.getString(7),rs.getInt(8),rs.getString(9)));
+					rs.getString(6),rs.getString(7),rs.getInt(8),rs.getString(9), rs.getInt(10),rs.getInt(11),rs.getInt(12),
+					rs.getInt(13),rs.getInt(14)));
 			System.out.println(rs.getString(1) + "|" + rs.getString(2));
 		} 
 		
@@ -275,7 +283,7 @@ public class EditController implements Initializable {
 		editTab2Col9.setCellValueFactory(new PropertyValueFactory<>("comments"));
 		
 		editTableBooks.setItems(null);
-		editTableBooks.setItems(dataBooks);
+		editTableBooks.setItems(dataBooks); 
 	}
 	
 	@FXML
@@ -409,6 +417,89 @@ public class EditController implements Initializable {
 		else System.out.println("NO ROW SELECTED");
 	}
 	
+	private void editPublisher() throws IOException, SQLException{
+		Publisher publisher = editTablePublishers.getSelectionModel().getSelectedItem();
+		if(editTablePublishers.getSelectionModel().getSelectedIndex() >= 0){
+			
+			System.out.println("Wa are before initialize edit scene");
+			
+			FXMLLoader loader = new FXMLLoader(Main.class.getResource("EditPublisherDialog.fxml"));
+			EditPublisherDialogController controller = new EditPublisherDialogController(publisher);
+			loader.setController(controller);
+			Parent root = (Parent)loader.load();
+			//Stage dialogStage = new Stage();
+			dialogStage = new Stage();
+			dialogStage.setScene(new Scene(root));
+			dialogStage.showAndWait();
+		}
+		else System.out.println("NO ROW SELECTED");
+	}
+	
+	private void editAuthor() throws IOException{
+		Author author = editTableAuthors.getSelectionModel().getSelectedItem();
+		if(editTableAuthors.getSelectionModel().getSelectedIndex() >= 0){
+			
+			System.out.println("Wa are before initialize edit scene");
+			
+			FXMLLoader loader = new FXMLLoader(Main.class.getResource("EditAuthorDialog.fxml"));
+			EditAuthorDialogController controller = new EditAuthorDialogController(author);
+			loader.setController(controller);
+			Parent root = (Parent)loader.load();
+			dialogStage = new Stage();
+			dialogStage.setScene(new Scene(root));
+			dialogStage.showAndWait();
+		}
+		else System.out.println("NO ROW SELECTED");
+	}
+	
+	private void editCategory() throws SQLException, IOException{
+		Category category = editTableCategories.getSelectionModel().getSelectedItem();
+		if(editTableCategories.getSelectionModel().getSelectedIndex() >= 0){
+			System.out.println("We are in edit category Sir!");
+			
+			FXMLLoader loader = new FXMLLoader(Main.class.getResource("EditCategoryDialog.fxml"));
+			EditCategoryController controller = new EditCategoryController(category);
+			loader.setController(controller);
+			Parent root = (Parent)loader.load();
+			dialogStage = new Stage();
+			dialogStage.setScene(new Scene(root));
+			dialogStage.showAndWait();
+		}
+		else System.out.println("NO ROW SELECTED");
+	}
+	
+	private void editUser() throws IOException{
+		User user = editTableUsers.getSelectionModel().getSelectedItem();
+		if(editTableUsers.getSelectionModel().getSelectedIndex() >= 0){
+			System.out.println("We are in edit user Sir!");
+			
+			FXMLLoader loader = new FXMLLoader(Main.class.getResource("EditUserDialog.fxml"));
+			EditUserDialogController controller = new EditUserDialogController(user);
+			loader.setController(controller);
+			Parent root = (Parent)loader.load();
+			dialogStage = new Stage();
+			dialogStage.setScene(new Scene(root));
+			dialogStage.showAndWait();
+		}
+		else System.out.println("NO ROW SELECTED");
+	}
+	
+	private void editBook() throws IOException{
+		BookDetail book = editTableBooks.getSelectionModel().getSelectedItem();
+		if(editTableBooks.getSelectionModel().getSelectedIndex() >= 0){
+			System.out.println("We are in edit user Sir!");
+			
+			FXMLLoader loader = new FXMLLoader(Main.class.getResource("EditBookDialog.fxml"));
+			EditBookDialogController controller = new EditBookDialogController(book);
+			loader.setController(controller);
+			Parent root = (Parent)loader.load();
+			dialogStage = new Stage();
+			dialogStage.setScene(new Scene(root));
+			dialogStage.showAndWait();
+		}
+		else System.out.println("NO ROW SELECTED");
+	}
+	
 	private void deleteAuthor() throws SQLException{
 		Author author = editTableAuthors.getSelectionModel().getSelectedItem();
 		if(editTableAuthors.getSelectionModel().getSelectedIndex() >= 0){
@@ -500,6 +591,7 @@ public class EditController implements Initializable {
 		}
 	}
 	
+	
 	private void addPublisher() throws SQLException, IOException{
 		Main.showAddPublisherDialog();
 		System.out.println("After publusher dialog closed");
@@ -540,6 +632,22 @@ public class EditController implements Initializable {
 		else if(selectionModel.getSelectedIndex() == 0)
 			addUser();
 		else System.out.println("NOPE"); 
+	}
+	
+	@FXML
+	private void handleEditButton() throws IOException, SQLException{
+		selectionModel = editTabPane.getSelectionModel();
+		
+		if(selectionModel.getSelectedIndex() == 4)
+			editPublisher();
+		if(selectionModel.getSelectedIndex() == 3)
+			editAuthor();
+		if(selectionModel.getSelectedIndex() == 2)
+			editCategory();
+		if(selectionModel.getSelectedIndex() == 0)
+			editUser();
+		if(selectionModel.getSelectedIndex() == 1)
+			editBook();
 	}
 	
 	@Override

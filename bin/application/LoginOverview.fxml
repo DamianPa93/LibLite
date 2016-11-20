@@ -15,7 +15,7 @@
                <children>
                   <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="37.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="74.0" AnchorPane.leftAnchor="37.0" AnchorPane.rightAnchor="36.0" AnchorPane.topAnchor="74.0">
                      <image>
-                        <Image url="@view/social.png" />
+                        <Image url="@view/login.png" />
                      </image>
                   </ImageView>
                </children>
