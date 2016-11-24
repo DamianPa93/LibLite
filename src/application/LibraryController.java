@@ -17,6 +17,7 @@ import application.model.Publisher;
 import application.model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
@@ -99,15 +100,6 @@ public class LibraryController implements Initializable
 	
 	@FXML
 	private TableColumn<BookDetail, String> advancedCommCol;
-	
-	/*@FXML
-	private TableColumn<BookDetail, Integer> advancedOrderIdCol;
-	
-	@FXML
-	private TableColumn<BookDetail, String> advancedOrderDtCol;
-	
-	@FXML
-	private TableColumn<BookDetail, String> advancedLoanDtCol; */
 	
 	@FXML
 	private TextField advancedText;
@@ -250,16 +242,21 @@ public class LibraryController implements Initializable
 	
 	@FXML
 	private void initializeLibraryDB() throws SQLException{
+		//
+		PseudoClass outOfStockPseudoClass = PseudoClass.getPseudoClass("out-of-stock");
+		//
 		data = FXCollections.observableArrayList();
 		
 		String searchText = bookText.getText();
 		
-		String sql = "select distinct b.isbn, a.name, b.title, group_concat(c.category separator ', ') "
+		String sql = "select b.isbn, a.name, b.title, group_concat(c.category separator ', ') "
 				+ "from tbl_book b "
 				+ "left join tbl_author a on b.id_author = a.id "
 				+ "left join tbl_category c on (b.id_category_1 = c.id OR b.id_category_2 = c.id OR b.id_category_3 = c.id) "
-				+ "where b.title like '%" + searchText + "%' "
-				+ "group by b.isbn, a.name, b.title"; 
+				+ "left join tbl_loan l on l.book_id = b.id "
+				+ "where l.id is null "
+				+ "and (b.title like '%" + searchText + "%' or b.isbn like '%" + searchText + "%') "
+				+ "group by b.isbn, a.name, b.title";
 		
 		PreparedStatement pst = conn.prepareStatement(sql);
 		ResultSet rs = pst.executeQuery(sql);
@@ -402,9 +399,9 @@ public class LibraryController implements Initializable
 		
 		String sql = "select x.* from ("
 				+ "select concat(u.name, ' ',u.surname) borrower, b.title, b.isbn,"
-				+ "l.loan_date date_from, DATE_ADD(l.loan_date, INTERVAL 14 DAY) return_to, l.comments "
-				+ "from tbl_loan l join tbl_user u on u.id = l.user_id "
-				+ "join tbl_book b on b.id = l.book_id ) x "
+				+ "l.loan_date date_from, return_date, l.comments "
+				+ "from tbl_loan l left join tbl_user u on u.id = l.user_id "
+				+ "left join tbl_book b on b.id = l.book_id ) x "
 				+ "where x.borrower like '%" + searchText + "%' "
 				+ "or x.title like '%" + searchText + "%' "
 				+ "or x.isbn like '%" + searchText + "%'";
@@ -414,9 +411,8 @@ public class LibraryController implements Initializable
 		ResultSet rs = pst.executeQuery(sql);
 		
 		while(rs.next()){
-			System.out.println(rs.getString(3) + "|" + rs.getString(4));
 			dataAdvancedLoan.add(new Loan(rs.getString(1),rs.getString(2),rs.getString(3),
-					rs.getDate(4).toString(),rs.getDate(4).toString(),rs.getString(6)));
+					rs.getString(4),rs.getString(5),rs.getString(6)));
 		}
 		
 		loanBorrowerCol.setCellValueFactory(new PropertyValueFactory<>("borrower"));
@@ -442,8 +438,8 @@ public class LibraryController implements Initializable
 		String sql = "select x.* from ("
 				+ "select concat(u.name, ' ',u.surname) borrower, b.title, b.isbn,"
 				+ "l.loan_date date_from, DATE_ADD(l.loan_date, INTERVAL 14 DAY) return_to, l.comments "
-				+ "from tbl_loan_history l join tbl_user u on u.id = l.user_id "
-				+ "join tbl_book b on b.id = l.book_id ) x "
+				+ "from tbl_loan_history l left join tbl_user u on u.id = l.user_id "
+				+ "left join tbl_book b on b.id = l.book_id ) x "
 				+ "where x.borrower like '%" + searchText + "%' "
 				+ "or x.title like '%" + searchText + "%' "
 				+ "or x.isbn like '%" + searchText + "%'";

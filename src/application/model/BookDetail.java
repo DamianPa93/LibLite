@@ -27,6 +27,19 @@ public class BookDetail {
 	public int authId;
 	public int pubId;
 	
+	public BookDetail(int id, String author, String title, String isbn){
+		this.id = new SimpleIntegerProperty(id);
+		this.author = new SimpleStringProperty(author);
+		this.title = new SimpleStringProperty(title);
+		this.isbn = new SimpleStringProperty(isbn);
+		//
+		this.category = null;
+		this.publisher = null;
+		this.dateOfPublication = null;
+		this.rating = null;
+		this.comments = null;
+	}
+	
 	public BookDetail(String isbn, String author, String category, String title, String publisher, String dateOfPublication, 
 				  int rating, String comments){
 		
@@ -110,4 +123,9 @@ public class BookDetail {
 	public IntegerProperty ratingProperty(){return rating;}
 	public StringProperty commentsProperty(){return comments;}
 	public IntegerProperty idProperty(){return id;}
+	
+	@Override
+	public String toString(){
+		return getTitle() + ", " + getAuthor() + ", " + getIsbn();
+	}
 }

@@ -91,6 +91,14 @@ public class Main extends Application {
 		dialogStage.showAndWait();
 	}
 	
+	public static void showAddLoanDialog() throws IOException{
+		FXMLLoader loader = new FXMLLoader(Main.class.getResource("AddLoanDialog.fxml"));
+		Parent root = (Parent)loader.load();
+		dialogStage = new Stage();
+		dialogStage.setScene(new Scene(root));
+		dialogStage.showAndWait();
+	}
+	
 	public static void showAddBookDialog() throws IOException{
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("AddBookDialog.fxml"));
 		Parent root = (Parent)loader.load();

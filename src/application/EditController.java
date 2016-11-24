@@ -13,8 +13,11 @@ import application.model.Author;
 import application.model.BookDetail;
 import application.model.Category;
 import application.model.DbConnection;
+import application.model.Loan;
 import application.model.Publisher;
 import application.model.User;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -31,6 +34,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
@@ -196,6 +200,82 @@ public class EditController implements Initializable {
 	private TextField editText5;
 	
 	private ObservableList<Publisher> dataPublishers;
+	
+	@FXML
+	private TextField editText6;
+	
+	@FXML
+	private TableView<Loan> editTableLoans;
+	
+	@FXML
+	private TableColumn<Loan, Integer> editTab6Col1; //ID
+	
+	@FXML
+	private TableColumn<Loan, String> editTab6Col2; //BORROWER
+	
+	@FXML
+	private TableColumn<Loan, String> editTab6Col3; //BOOK
+	
+	@FXML
+	private TableColumn<Loan, String> editTab6Col4; //LOAN DATE
+	
+	@FXML
+	private TableColumn<Loan, String> editTab6Col5; //RETURN DATE
+	
+	@FXML
+	private TableColumn<Loan, String> editTab6Col6; //COMMENTS
+	
+	private ObservableList<Loan> dataLoans;
+	
+	@FXML
+	private Button redeem;
+	
+	
+	
+	@FXML
+	private TabPane editTabPane;
+	
+	SingleSelectionModel<Tab> selectionModel;
+	
+	
+	
+	
+	
+	
+	@FXML
+	public void initializeLoansDB() throws SQLException{
+		System.out.println("We are at loan");
+		dataLoans = FXCollections.observableArrayList();
+		
+		String searchText = editText6.getText();
+		
+		String sql = "select * from ( "
+				+ "select l.id, concat(u.name, ' ',u.surname, ', ',u.socsecnumber) borrower, "
+				+ "concat(b.title, ', ',b.isbn) book, l.loan_date, l.return_date, l.comments, l.user_id, l.book_id "
+				+ "from tbl_loan l "
+				+ "left join tbl_book b on l.book_id = b.id "
+				+ "left join tbl_user u on l.user_id = u.id) x "
+				+ "where x.borrower like '%" + searchText + "%' "
+				+ "or x.book like '%" + searchText + "%'";
+		
+		PreparedStatement pst = conn.prepareStatement(sql);
+		ResultSet rs = pst.executeQuery(sql);
+		
+		while(rs.next()){
+			dataLoans.add(new Loan(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),
+					rs.getInt(7),rs.getInt(8)));
+		}
+		
+		editTab6Col1.setCellValueFactory(new PropertyValueFactory<>("id"));
+		editTab6Col2.setCellValueFactory(new PropertyValueFactory<>("borrower"));
+		editTab6Col3.setCellValueFactory(new PropertyValueFactory<>("title"));
+		editTab6Col4.setCellValueFactory(new PropertyValueFactory<>("dateFrom"));
+		editTab6Col5.setCellValueFactory(new PropertyValueFactory<>("returnTo"));
+		editTab6Col6.setCellValueFactory(new PropertyValueFactory<>("comments"));
+		
+		editTableLoans.setItems(null);
+		editTableLoans.setItems(dataLoans);
+	}
 	
 	@FXML
 	public void initializeUsersDB() throws SQLException{
@@ -370,10 +450,7 @@ public class EditController implements Initializable {
 		editTablePublishers.setItems(dataPublishers);
 	}
 	
-	@FXML
-	private TabPane editTabPane;
 	
-	SingleSelectionModel<Tab> selectionModel;
 	
 	private boolean deleteWarning(){
 		Alert alert = new Alert(AlertType.WARNING,"",ButtonType.YES, ButtonType.NO);
@@ -412,6 +489,21 @@ public class EditController implements Initializable {
 				pst.setInt(1, publisher.getId());
 				pst.executeUpdate();
 				initializePublishersDB();
+			}
+		}
+		else System.out.println("NO ROW SELECTED");
+	}
+	
+	private void deleteLoan() throws SQLException{
+		Loan loan = editTableLoans.getSelectionModel().getSelectedItem();
+		if(editTableLoans.getSelectionModel().getSelectedIndex() >= 0){
+			if(deleteWarning()){
+				System.out.println(selectionModel.getSelectedIndex() + " " + loan.getId());
+				String sql = "delete from tbl_loan where id = ?";
+				PreparedStatement pst = conn.prepareStatement(sql);
+				pst.setInt(1, loan.getId());
+				pst.executeUpdate();
+				initializeLoansDB();
 			}
 		}
 		else System.out.println("NO ROW SELECTED");
@@ -500,6 +592,46 @@ public class EditController implements Initializable {
 		else System.out.println("NO ROW SELECTED");
 	}
 	
+	private void editLoan() throws IOException{
+		Loan loan = editTableLoans.getSelectionModel().getSelectedItem();
+		if(editTableLoans.getSelectionModel().getSelectedIndex() >= 0){
+			System.out.println("We are in edit user Sir!");
+			
+			FXMLLoader loader = new FXMLLoader(Main.class.getResource("EditLoanDialog.fxml"));
+			EditLoanDialogController controller = new EditLoanDialogController(loan);
+			loader.setController(controller);
+			Parent root = (Parent)loader.load();
+			dialogStage = new Stage();
+			dialogStage.setScene(new Scene(root));
+			dialogStage.showAndWait();
+		}
+		else System.out.println("NO ROW SELECTED");
+	}
+	
+	private void addLoanHistory() throws SQLException{
+		Loan loan = editTableLoans.getSelectionModel().getSelectedItem();
+		if(editTableLoans.getSelectionModel().getSelectedIndex() >= 0){
+			System.out.println("We are loan -> history!");
+			String sql_insert = "insert into tbl_loan_history(user_id, book_id, loan_date, return_date,comments) "
+					+ "select user_id, book_id, loan_date, return_date, comments "
+					+ "from tbl_loan where id = " + loan.getId() + " ";
+			
+			PreparedStatement pst = conn.prepareStatement(sql_insert);
+			pst.executeUpdate();
+			
+			String sql_delete = "delete from tbl_loan where id = " + loan.getId() + " ";
+			pst = conn.prepareStatement(sql_delete);
+			pst.executeUpdate();
+		}
+		else System.out.println("NO ROW SELECTED");
+	}
+	
+	@FXML
+	private void handleRedeemButton() throws SQLException{
+		addLoanHistory();
+		//redeem.setVisible(false);
+	}
+	
 	private void deleteAuthor() throws SQLException{
 		Author author = editTableAuthors.getSelectionModel().getSelectedItem();
 		if(editTableAuthors.getSelectionModel().getSelectedIndex() >= 0){
@@ -562,6 +694,8 @@ public class EditController implements Initializable {
 			deleteAuthor();
 		else if(selectionModel.getSelectedIndex() == 4)
 			deletePublisher();
+		else if(selectionModel.getSelectedIndex() == 5)
+			deleteLoan();
 		else System.out.println("NOPE"); 
 	}
 	
@@ -617,6 +751,11 @@ public class EditController implements Initializable {
 		//initializeBooksDB();
 	}
 	
+	private void addLoan() throws IOException{
+		System.out.println("We are at loan");
+		Main.showAddLoanDialog();
+	}
+	
 	@FXML
 	private void handleAddButton() throws SQLException, IOException{
 		selectionModel = editTabPane.getSelectionModel();
@@ -631,6 +770,8 @@ public class EditController implements Initializable {
 			addBook();
 		else if(selectionModel.getSelectedIndex() == 0)
 			addUser();
+		else if(selectionModel.getSelectedIndex() == 5)
+			addLoan();
 		else System.out.println("NOPE"); 
 	}
 	
@@ -648,6 +789,8 @@ public class EditController implements Initializable {
 			editUser();
 		if(selectionModel.getSelectedIndex() == 1)
 			editBook();
+		if(selectionModel.getSelectedIndex() == 5)
+			editLoan();
 	}
 	
 	@Override
@@ -655,5 +798,27 @@ public class EditController implements Initializable {
 		// TODO Auto-generated method stub
 		dc = new DbConnection();
 		conn = dc.connect();
+		
+		redeem.setVisible(false);
+		
+		selectionModel = editTabPane.getSelectionModel();
+		
+		editTabPane.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+		    @Override
+		    public void changed(ObservableValue<? extends Number> ov, Number oldValue, Number newValue) {
+		    	if(selectionModel.getSelectedIndex() == 5)
+		    		redeem.setVisible(true);
+		    	else
+		    		redeem.setVisible(false);
+		    }
+		});
+		
+		redeem.setStyle("-fx-background-color: "
+				+ " linear-gradient(#f0ff35, #a9ff00), "
+				+ " radial-gradient(center 50% -40%, radius 200%, #b8ee36 45%, #80c800 50%); "
+				+ "-fx-background-radius: 6, 5; "
+				+ "-fx-background-insets: 0, 1; "
+				+ "-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 ); "
+				+ "-fx-text-fill: #395306; ");
 	}
 }

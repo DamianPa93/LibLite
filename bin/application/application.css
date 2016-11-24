@@ -1,1 +1,6 @@
-/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+.table-row-cell {
+    -fx-selection-bar: /* color for in-stock selected row */ ;
+}
+.table-row-cell:out-of-stock {
+    -fx-selection-bar: /* color for out-of-stock selected row */;
+}

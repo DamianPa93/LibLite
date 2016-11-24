@@ -25,6 +25,27 @@ public class User {
 	private final StringProperty postalCode;
 	private final IntegerProperty secId;
 	
+	public User(int id ,String login, String name, String surname){
+		this.login = new SimpleStringProperty(login);
+		this.id = new SimpleIntegerProperty(id);
+		this.name = new SimpleStringProperty(name);
+		this.surname = new SimpleStringProperty(surname);
+		//
+		this.password = null;
+		this.city = null;
+		this.street = null;
+		this.apartment = null;
+		this.postalCode = null;
+		this.phone = null;
+		this.email = null;
+		this.pesel = null;
+		this.status = null;
+		this.orders = null;
+		this.address = null;
+		this.books = null;
+		this.secId = null;
+	}
+	
 	public User(String login, String password, String name, String surname, String city, String street,
 			String apartment, String postalCode, String phone, String email, String pesel, String status){
 		this.login = new SimpleStringProperty(login);
@@ -146,4 +167,9 @@ public class User {
 	public StringProperty apartmentProperty(){return apartment;}
 	public StringProperty postalCodeProperty(){return postalCode;}
 	public IntegerProperty secIdProperty(){return secId;}
+	
+	@Override
+	public String toString(){
+		return getLogin() + ", " + getName() + " " + getSurname();
+	}
 }
