@@ -21,6 +21,7 @@ import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -240,10 +241,56 @@ public class LibraryController implements Initializable
 	
 	private ObservableList<Publisher> dataAdvancedPublisher;
 	
+	private boolean checkIfOutOfStock(Book book) throws SQLException{
+		String query = "select * from tbl_book where isbn = '" + book.getIsbn() + "'";
+		
+		dc = new DbConnection();
+		conn = dc.connect();
+		
+		PreparedStatement checkPst = conn.prepareStatement(query);
+		ResultSet checkRs = checkPst.executeQuery(query);
+		
+		if(checkRs.next()){
+			return false;
+		} else return true;
+	}
+	
 	@FXML
 	private void initializeLibraryDB() throws SQLException{
 		//
 		PseudoClass outOfStockPseudoClass = PseudoClass.getPseudoClass("out-of-stock");
+
+		libraryTable.setRowFactory(tv -> {
+		    TableRow<Book> row = new TableRow<>();
+		    row.selectedProperty().addListener((obs, wasSelected, isNowSelected) -> {
+		        if (isNowSelected) {
+		            boolean outOfStock;
+					try {
+						outOfStock = checkIfOutOfStock(row.getItem());
+			            row.pseudoClassStateChanged(outOfStockPseudoClass, outOfStock);
+			            row.setStyle("-fx-background-color:lightcoral");
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+		        }
+		    });
+		    row.itemProperty().addListener((obs, oldMovie, newMovie) -> {
+		        if (row.isSelected()) {
+		            boolean outOfStock;
+					try {
+						outOfStock = checkIfOutOfStock(newMovie);
+			            row.pseudoClassStateChanged(outOfStockPseudoClass, outOfStock);
+			            row.setStyle("-fx-background-color:lightgreen");
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+		        }
+		    });
+		    return row ;
+		});
+		
 		//
 		data = FXCollections.observableArrayList();
 		
@@ -531,5 +578,6 @@ public class LibraryController implements Initializable
 		// TODO Auto-generated method stub
 		dc = new DbConnection();
 		conn = dc.connect();
+		
 	}
 }

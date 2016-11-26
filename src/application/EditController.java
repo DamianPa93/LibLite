@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import application.model.Author;
+import application.model.Book;
 import application.model.BookDetail;
 import application.model.Category;
 import application.model.DbConnection;
@@ -29,14 +30,18 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Labeled;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class EditController implements Initializable {
@@ -229,9 +234,34 @@ public class EditController implements Initializable {
 	
 	@FXML
 	private Button redeem;
+	//
+	@FXML
+	private TextField editText7;
 	
+	@FXML
+	private TableView<Loan> editTableLoanHistory;
 	
+	@FXML
+	private TableColumn<Loan, Integer> editTab7Col1; //ID
 	
+	@FXML
+	private TableColumn<Loan, String> editTab7Col2; //BORROWER
+	
+	@FXML
+	private TableColumn<Loan, String> editTab7Col3; //BOOK
+	
+	@FXML
+	private TableColumn<Loan, String> editTab7Col4; //LOAN DATE
+	
+	@FXML
+	private TableColumn<Loan, String> editTab7Col5; //RETURN DATE
+	
+	@FXML
+	private TableColumn<Loan, String> editTab7Col6; //COMMENTS
+	
+	private ObservableList<Loan> dataLoanHistory;
+	
+	//
 	@FXML
 	private TabPane editTabPane;
 	
@@ -239,7 +269,40 @@ public class EditController implements Initializable {
 	
 	
 	
-	
+	@FXML
+	public void initializeLoanHistoryDB() throws SQLException{
+		System.out.println("We are at loan history");
+		dataLoanHistory = FXCollections.observableArrayList();
+		
+		String searchText = editText7.getText();
+		
+		String sql = "select * from ( "
+				+ "select l.id, concat(u.name, ' ',u.surname, ', ',u.socsecnumber) borrower, "
+				+ "concat(b.title, ', ',b.isbn) book, l.loan_date, l.return_date, l.comments, l.user_id, l.book_id "
+				+ "from tbl_loan_history l "
+				+ "left join tbl_book b on l.book_id = b.id "
+				+ "left join tbl_user u on l.user_id = u.id) x "
+				+ "where x.borrower like '%" + searchText + "%' "
+				+ "or x.book like '%" + searchText + "%'";
+		
+		PreparedStatement pst = conn.prepareStatement(sql);
+		ResultSet rs = pst.executeQuery(sql);
+		
+		while(rs.next()){
+			dataLoanHistory.add(new Loan(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),
+					rs.getInt(7),rs.getInt(8)));
+		}
+		
+		editTab7Col1.setCellValueFactory(new PropertyValueFactory<>("id"));
+		editTab7Col2.setCellValueFactory(new PropertyValueFactory<>("borrower"));
+		editTab7Col3.setCellValueFactory(new PropertyValueFactory<>("title"));
+		editTab7Col4.setCellValueFactory(new PropertyValueFactory<>("dateFrom"));
+		editTab7Col5.setCellValueFactory(new PropertyValueFactory<>("returnTo"));
+		editTab7Col6.setCellValueFactory(new PropertyValueFactory<>("comments"));
+		
+		editTableLoanHistory.setItems(null);
+		editTableLoanHistory.setItems(dataLoanHistory);
+	}
 	
 	
 	@FXML
@@ -364,7 +427,11 @@ public class EditController implements Initializable {
 		
 		editTableBooks.setItems(null);
 		editTableBooks.setItems(dataBooks); 
+		
+		
 	}
+	
+	
 	
 	@FXML
 	private void initializeCategoriesDB() throws SQLException{
@@ -504,6 +571,21 @@ public class EditController implements Initializable {
 				pst.setInt(1, loan.getId());
 				pst.executeUpdate();
 				initializeLoansDB();
+			}
+		}
+		else System.out.println("NO ROW SELECTED");
+	}
+	
+	private void deleteLoanHistory() throws SQLException{
+		Loan loan = editTableLoanHistory.getSelectionModel().getSelectedItem();
+		if(editTableLoanHistory.getSelectionModel().getSelectedIndex() >= 0){
+			if(deleteWarning()){
+				System.out.println(selectionModel.getSelectedIndex() + " " + loan.getId());
+				String sql = "delete from tbl_loan_history where id = ?";
+				PreparedStatement pst = conn.prepareStatement(sql);
+				pst.setInt(1, loan.getId());
+				pst.executeUpdate();
+				initializeLoanHistoryDB();
 			}
 		}
 		else System.out.println("NO ROW SELECTED");
@@ -696,6 +778,8 @@ public class EditController implements Initializable {
 			deletePublisher();
 		else if(selectionModel.getSelectedIndex() == 5)
 			deleteLoan();
+		else if(selectionModel.getSelectedIndex() == 6)
+			deleteLoanHistory();
 		else System.out.println("NOPE"); 
 	}
 	
@@ -793,6 +877,20 @@ public class EditController implements Initializable {
 			editLoan();
 	}
 	
+	private boolean checkIfOutOfStock(BookDetail book) throws SQLException{
+		String query = "select * from tbl_loan where book_id = " + book.getId() + " ";
+		
+		dc = new DbConnection();
+		conn = dc.connect();
+		
+		PreparedStatement checkPst = conn.prepareStatement(query);
+		ResultSet checkRs = checkPst.executeQuery(query);
+		
+		if(checkRs.next()){
+			return true;
+		} else return false;
+	}
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
@@ -820,5 +918,26 @@ public class EditController implements Initializable {
 				+ "-fx-background-insets: 0, 1; "
 				+ "-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 ); "
 				+ "-fx-text-fill: #395306; ");
+		
+		
+		editTableBooks.setRowFactory(tv -> new TableRow<BookDetail>() {
+		    @Override
+		    public void updateItem(BookDetail item, boolean empty) {
+		        super.updateItem(item, empty) ;
+		        if (item == null) {
+		            setStyle("");
+		        } else
+					try {
+						if (checkIfOutOfStock(item)) {
+						    setStyle("-fx-background-color: tomato;");
+						} else {
+						    setStyle("");
+						}
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+		    }
+		});
 	}
 }
