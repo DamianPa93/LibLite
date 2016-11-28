@@ -46,6 +46,8 @@ public class AddUserDialogController {
 	@FXML
 	private TextField statusText;
 	
+	private int loginId;
+	
 	@FXML
 	private void handleAddButton() throws SQLException{
 		if(nameText.getLength() == 0 ||
@@ -87,7 +89,8 @@ public class AddUserDialogController {
 				pst.setString(8, user.getPostalCode());
 				pst.setString(9, user.getPhone());
 				pst.setString(10, user.getEmail());
-				pst.setInt(11, Integer.parseInt(user.getPesel()));
+				//pst.setInt(11, Integer.parseInt(user.getPesel()));
+				pst.setString(11, user.getPesel());
 				pst.setString(12, user.getStatus());
 				
 				System.out.println("Sir we made it through psts!");
@@ -95,9 +98,26 @@ public class AddUserDialogController {
 				
 				userSuccess();
 				handleCancelButton();
-			} else
-				userWarnings("Arleady in base","User arelady is in database");
+			} else {
+				if(loginId == 1)
+					userWarnings("Arleady in base","Login arleady in database");
+				else
+					userWarnings("Arleady in base","SECID arleady in database");
+			}		
 		}
+	}
+	
+	public boolean isInteger( String input )
+	{
+	   try
+	   {
+	      Integer.parseInt( input );
+	      return true;
+	   }
+	   catch( Exception e )
+	   {
+	      return false;
+	   }
 	}
 	
 	private void showUser(){
@@ -116,18 +136,27 @@ public class AddUserDialogController {
 	}
 	
 	private boolean checkUserInTable() throws SQLException{
-		String queryCheck = "select * from tbl_user where username = '" + user.getLogin() + "' "
-				+ "or socsecnumber = '" + user.getPesel() + "'";
 		
+		String queryCheck = "select * from tbl_user where username = '" + user.getLogin() + "' ";
+		String queryCheck2 = "select * from tbl_user where socsecnumber = '" + user.getPesel() + "'";
 		dc = new DbConnection();
 		conn = dc.connect();
 		
 		PreparedStatement checkPst = conn.prepareStatement(queryCheck);
+		PreparedStatement checkPst2 = conn.prepareStatement(queryCheck2);
+		
 		ResultSet checkRs = checkPst.executeQuery(queryCheck);
+		ResultSet checkRs2 = checkPst2.executeQuery(queryCheck2);
 		System.out.println("We've passed query make sir");
 		if(checkRs.next()){
+			loginId = 1;
 			checkRs.close();
 			checkPst.close();
+			return false;
+		} else if(checkRs2.next()){
+			loginId = 2;
+			checkRs2.close();
+			checkPst2.close();
 			return false;
 		}
 		else{

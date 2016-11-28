@@ -141,8 +141,8 @@ public class EditLoanDialogController implements Initializable{
 	private void loanSuccess(){
 		Alert alert = new Alert(AlertType.INFORMATION,"",ButtonType.OK);
 		alert.setTitle("Success!");
-		alert.setHeaderText("New loan created.");
-		alert.setContentText("Loan has been created!");
+		alert.setHeaderText("Loan changed.");
+		alert.setContentText("Loan has been altered!");
 		alert.showAndWait();
 	}
 	

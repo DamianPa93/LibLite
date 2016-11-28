@@ -5,8 +5,14 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Optional;
+
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 
 public class LoginController {
 
@@ -26,7 +32,22 @@ public class LoginController {
 			Main.showMainView();
 		} else {
 			System.out.println("Fail.");
+			credWarning();
 		}
+	}
+	
+	private void credWarning(){
+		Alert alert = new Alert(AlertType.WARNING,"",ButtonType.YES, ButtonType.NO);
+		alert.setTitle("WARNING");
+		alert.setHeaderText("Invalid credenials");
+		alert.setContentText("Login or password are invalid");
+		Optional<ButtonType> result = alert.showAndWait();
+	}
+	
+	@FXML
+	public void onEnter(ActionEvent ae) throws IOException{
+		System.out.println("Enter pressed");
+		Button();
 	}
 	
 	private boolean isCredentialsValid(){

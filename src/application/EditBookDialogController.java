@@ -113,7 +113,7 @@ public class EditBookDialogController implements Initializable{
 				bookSuccess(); 
 				handleCancelButton();
 			}
-			else bookWarnings("Arleady in base","Book arelady is in database");
+			else bookWarnings("Arleady in base","ISBN arelady is in database");
 		}
 	}
 	
@@ -143,10 +143,7 @@ public class EditBookDialogController implements Initializable{
 				categoryCombo2.getSelectionModel().select(c);
 			if(c.getId() == book.cat3Id)
 				categoryCombo3.getSelectionModel().select(c);
-		}
-		//categoryCombo1.getSelectionModel().select(categoryList.));
-		//
-				
+		}	
 		sql = "select id, name, surname from tbl_author";
 		pst = conn.prepareStatement(sql);
 		rs = pst.executeQuery(sql);
@@ -185,7 +182,8 @@ public class EditBookDialogController implements Initializable{
 	}
 	
 	private boolean checkBookInTable() throws SQLException{
-		String queryCheck = "select * from tbl_book where isbn = '" + isbnText.getText() + "'";
+		String queryCheck = "select * from tbl_book where isbn = '" + isbnText.getText() + "' "
+				+ "and id <> " + book.getId();
 		
 		dc = new DbConnection();
 		conn = dc.connect();
@@ -236,8 +234,6 @@ public class EditBookDialogController implements Initializable{
 		}
 		
 		System.out.println(book.cat1Id);
-		
-		//categoryCombo1.getSelectionModel().select();
 		
 		titleText.setText(book.getTitle());
 		isbnText.setText(book.getIsbn());

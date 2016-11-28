@@ -17,10 +17,13 @@ import application.model.DbConnection;
 import application.model.Loan;
 import application.model.Publisher;
 import application.model.User;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -39,8 +42,11 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Labeled;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -233,6 +239,15 @@ public class EditController implements Initializable {
 	private ObservableList<Loan> dataLoans;
 	
 	@FXML
+	private Button mainAdd;
+	
+	@FXML
+	private Button mainEdit;
+	
+	@FXML
+	private Button mainDelete;
+	
+	@FXML
 	private Button redeem;
 	//
 	@FXML
@@ -266,6 +281,9 @@ public class EditController implements Initializable {
 	private TabPane editTabPane;
 	
 	SingleSelectionModel<Tab> selectionModel;
+	
+	@FXML
+	private MenuItem menuAbout;
 	
 	
 	
@@ -341,6 +359,48 @@ public class EditController implements Initializable {
 	}
 	
 	@FXML
+	public void onEnterUser(ActionEvent ae) throws SQLException{
+		   System.out.println("test") ;
+		   initializeUsersDB();
+	}
+	
+	@FXML
+	public void onEnterBook(ActionEvent ae) throws SQLException{
+		   System.out.println("test") ;
+		   initializeBooksDB();
+	}
+	
+	@FXML
+	public void onEnterCategory(ActionEvent ae) throws SQLException{
+		   System.out.println("test") ;
+		   initializeCategoriesDB();
+	}
+	
+	@FXML
+	public void onEnterAuthor(ActionEvent ae) throws SQLException{
+		   System.out.println("test") ;
+		   initializeAuthorsDB();
+	}
+	
+	@FXML
+	public void onEnterPublisher(ActionEvent ae) throws SQLException{
+		   System.out.println("test") ;
+		   initializePublishersDB();
+	}
+	
+	@FXML
+	public void onEnterLoan(ActionEvent ae) throws SQLException{
+		   System.out.println("test") ;
+		   initializeLoansDB();
+	}
+	
+	@FXML
+	public void onEnterLoanHistory(ActionEvent ae) throws SQLException{
+		   System.out.println("test") ;
+		   initializeLoanHistoryDB();
+	}
+	
+	@FXML
 	public void initializeUsersDB() throws SQLException{
 		dataUser = FXCollections.observableArrayList();
 		
@@ -358,8 +418,7 @@ public class EditController implements Initializable {
 		
 		while(rs.next()){
 			dataUser.add(new User(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),
-					rs.getString(7),rs.getString(8),rs.getString(9),rs.getString(10),rs.getString(11),rs.getInt(12),rs.getString(13)));
-			System.out.println(rs.getString(1) + "|" + rs.getString(2));
+					rs.getString(7),rs.getString(8),rs.getString(9),rs.getString(10),rs.getString(11),rs.getString(12),rs.getString(13)));
 		} 
 		
 		editTab1Col1.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -373,7 +432,7 @@ public class EditController implements Initializable {
 		editTab1Col9.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
 		editTab1Col10.setCellValueFactory(new PropertyValueFactory<>("phone"));
 		editTab1Col11.setCellValueFactory(new PropertyValueFactory<>("email"));
-		editTab1Col12.setCellValueFactory(new PropertyValueFactory<>("secId"));
+		editTab1Col12.setCellValueFactory(new PropertyValueFactory<>("peselString"));
 		editTab1Col13.setCellValueFactory(new PropertyValueFactory<>("status"));
 		
 		editTableUsers.setItems(null);
@@ -427,11 +486,7 @@ public class EditController implements Initializable {
 		
 		editTableBooks.setItems(null);
 		editTableBooks.setItems(dataBooks); 
-		
-		
 	}
-	
-	
 	
 	@FXML
 	private void initializeCategoriesDB() throws SQLException{
@@ -542,7 +597,8 @@ public class EditController implements Initializable {
 				initializeCategoriesDB();
 			}
 		}
-		else System.out.println("NO ROW SELECTED");
+		else noRowSelected();
+			//System.out.println("NO ROW SELECTED");
 	}
 	
 	private void deletePublisher() throws SQLException{
@@ -558,7 +614,8 @@ public class EditController implements Initializable {
 				initializePublishersDB();
 			}
 		}
-		else System.out.println("NO ROW SELECTED");
+		else noRowSelected();
+			//System.out.println("NO ROW SELECTED");
 	}
 	
 	private void deleteLoan() throws SQLException{
@@ -573,7 +630,8 @@ public class EditController implements Initializable {
 				initializeLoansDB();
 			}
 		}
-		else System.out.println("NO ROW SELECTED");
+		else noRowSelected();
+			//System.out.println("NO ROW SELECTED");
 	}
 	
 	private void deleteLoanHistory() throws SQLException{
@@ -601,15 +659,16 @@ public class EditController implements Initializable {
 			EditPublisherDialogController controller = new EditPublisherDialogController(publisher);
 			loader.setController(controller);
 			Parent root = (Parent)loader.load();
-			//Stage dialogStage = new Stage();
 			dialogStage = new Stage();
 			dialogStage.setScene(new Scene(root));
 			dialogStage.showAndWait();
+			initializePublishersDB();
 		}
-		else System.out.println("NO ROW SELECTED");
+		else noRowSelected();
+			//System.out.println("NO ROW SELECTED");
 	}
 	
-	private void editAuthor() throws IOException{
+	private void editAuthor() throws IOException, SQLException{
 		Author author = editTableAuthors.getSelectionModel().getSelectedItem();
 		if(editTableAuthors.getSelectionModel().getSelectedIndex() >= 0){
 			
@@ -622,8 +681,10 @@ public class EditController implements Initializable {
 			dialogStage = new Stage();
 			dialogStage.setScene(new Scene(root));
 			dialogStage.showAndWait();
+			initializeAuthorsDB();
 		}
-		else System.out.println("NO ROW SELECTED");
+		else noRowSelected();
+			//System.out.println("NO ROW SELECTED");
 	}
 	
 	private void editCategory() throws SQLException, IOException{
@@ -638,11 +699,14 @@ public class EditController implements Initializable {
 			dialogStage = new Stage();
 			dialogStage.setScene(new Scene(root));
 			dialogStage.showAndWait();
+			initializeCategoriesDB();
 		}
-		else System.out.println("NO ROW SELECTED");
+		else noRowSelected();
+			//System.out.println("NO ROW SELECTED");
 	}
 	
-	private void editUser() throws IOException{
+	private void editUser() throws IOException, SQLException{
+		System.out.println("EDIT");
 		User user = editTableUsers.getSelectionModel().getSelectedItem();
 		if(editTableUsers.getSelectionModel().getSelectedIndex() >= 0){
 			System.out.println("We are in edit user Sir!");
@@ -654,11 +718,12 @@ public class EditController implements Initializable {
 			dialogStage = new Stage();
 			dialogStage.setScene(new Scene(root));
 			dialogStage.showAndWait();
+			initializeUsersDB();
 		}
-		else System.out.println("NO ROW SELECTED");
+		else noRowSelected();
 	}
 	
-	private void editBook() throws IOException{
+	private void editBook() throws IOException, SQLException{
 		BookDetail book = editTableBooks.getSelectionModel().getSelectedItem();
 		if(editTableBooks.getSelectionModel().getSelectedIndex() >= 0){
 			System.out.println("We are in edit user Sir!");
@@ -670,11 +735,13 @@ public class EditController implements Initializable {
 			dialogStage = new Stage();
 			dialogStage.setScene(new Scene(root));
 			dialogStage.showAndWait();
+			initializeBooksDB();
 		}
-		else System.out.println("NO ROW SELECTED");
+		else noRowSelected();
+			//System.out.println("NO ROW SELECTED");
 	}
 	
-	private void editLoan() throws IOException{
+	private void editLoan() throws IOException, SQLException{
 		Loan loan = editTableLoans.getSelectionModel().getSelectedItem();
 		if(editTableLoans.getSelectionModel().getSelectedIndex() >= 0){
 			System.out.println("We are in edit user Sir!");
@@ -686,8 +753,10 @@ public class EditController implements Initializable {
 			dialogStage = new Stage();
 			dialogStage.setScene(new Scene(root));
 			dialogStage.showAndWait();
+			initializeLoansDB();
 		}
-		else System.out.println("NO ROW SELECTED");
+		else noRowSelected();
+			//System.out.println("NO ROW SELECTED");
 	}
 	
 	private void addLoanHistory() throws SQLException{
@@ -705,13 +774,25 @@ public class EditController implements Initializable {
 			pst = conn.prepareStatement(sql_delete);
 			pst.executeUpdate();
 		}
-		else System.out.println("NO ROW SELECTED");
+		else noRowSelected();
 	}
 	
 	@FXML
 	private void handleRedeemButton() throws SQLException{
-		addLoanHistory();
-		//redeem.setVisible(false);
+		
+		
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Confirmation Dialog");
+		alert.setHeaderText("Please confirm action");
+		alert.setContentText("Redeem finalized loan to history?");
+
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == ButtonType.OK){
+			addLoanHistory();
+			initializeLoansDB();
+		} else {
+		    alert.close();
+		}
 	}
 	
 	private void deleteAuthor() throws SQLException{
@@ -727,7 +808,8 @@ public class EditController implements Initializable {
 				initializeAuthorsDB();
 			}
 		}
-		else System.out.println("NO ROW SELECTED");
+		else noRowSelected();
+			//System.out.println("NO ROW SELECTED");
 	}
 	
 	private void deleteBook() throws SQLException{
@@ -743,23 +825,122 @@ public class EditController implements Initializable {
 				initializeBooksDB();
 			}
 		}
-		else System.out.println("NO ROW SELECTED");
+		else noRowSelected();
+			//System.out.println("NO ROW SELECTED");
 	}
 	
 	private void deleteUser() throws SQLException{
 		User user = editTableUsers.getSelectionModel().getSelectedItem();
 		if(editTableUsers.getSelectionModel().getSelectedIndex() >= 0){
 			
-			if(deleteWarning()){
-				System.out.println(selectionModel.getSelectedIndex() + " " + user.getId());
-				String sql = "delete from tbl_user where id = ?";
-				PreparedStatement pst = conn.prepareStatement(sql);
-				pst.setInt(1, user.getId());
-				pst.executeUpdate();
-				initializeUsersDB();
+			if(userBooks(user)){
+				userWarnings("User is bussy","Can't delete user before all borrowed books are returned.");
+			} else {
+			
+				if(deleteWarning()){
+					System.out.println(selectionModel.getSelectedIndex() + " " + user.getId());
+					String sql = "delete from tbl_user where id = ?";
+					PreparedStatement pst = conn.prepareStatement(sql);
+					pst.setInt(1, user.getId());
+					pst.executeUpdate();
+					initializeUsersDB();
+				}
+			} 		
+		} else noRowSelected();
+		//else System.out.println("NO ROW SELECTED");
+	}
+	
+	private void userWarnings(String headerText, String contentText){
+		Alert alert = new Alert(AlertType.WARNING,"",ButtonType.OK, ButtonType.CLOSE);
+		alert.setTitle("WARNING");
+		alert.setHeaderText(headerText);
+		alert.setContentText(contentText);
+		alert.showAndWait();
+	}
+	
+	private void noRowSelected(){
+		Alert alert = new Alert(AlertType.WARNING,"",ButtonType.OK, ButtonType.CLOSE);
+		alert.setTitle("WARNING");
+		alert.setHeaderText("No row selected");
+		alert.setContentText("Select row");
+		alert.showAndWait();
+	}
+	
+	private boolean userBooks(User user) throws SQLException{
+		String queryCheck = "select * from tbl_loan where user_id = " + user.getId() + " ";
+		PreparedStatement checkPst = conn.prepareStatement(queryCheck);
+		ResultSet checkRs = checkPst.executeQuery(queryCheck);
+		if(checkRs.next()){
+			return true;
+		} else return false;
+	}
+	
+	private void addCategory() throws SQLException{
+		TextInputDialog dialog = new TextInputDialog("new category");
+		dialog.setTitle("Add category");
+		dialog.setHeaderText("You can now insert new category");
+		dialog.setContentText("Please enter new category:");
+		Optional<String> result = dialog.showAndWait();
+		
+		if(result.isPresent()){
+			String category = result.get();
+			String queryCheck = "select * from tbl_category where category = '" + category + "'";
+			
+			PreparedStatement checkPst = conn.prepareStatement(queryCheck);
+			ResultSet checkRs = checkPst.executeQuery(queryCheck);
+			
+			if(checkRs.next()) {
+				categoryWarnings();
+				addCategory();
 			}
+			else{
+				String sql = "insert into tbl_category(category) values(?)";
+				System.out.println(sql);
+				PreparedStatement pst = conn.prepareStatement(sql);
+				pst.setString(1, category);
+				pst.executeUpdate();
+				initializeCategoriesDB();
+			}	
 		}
-		else System.out.println("NO ROW SELECTED");
+	}
+	
+	private void categoryWarnings(){
+		Alert alert = new Alert(AlertType.WARNING,"",ButtonType.OK, ButtonType.CLOSE);
+		alert.setTitle("WARNING");
+		alert.setHeaderText("Category arelady in base");
+		alert.setContentText("Category with that name is already in base");
+		alert.showAndWait();
+	}
+	
+	private void addPublisher() throws SQLException, IOException{
+		Main.showAddPublisherDialog();
+		System.out.println("After publusher dialog closed");
+		initializePublishersDB();
+	}
+	
+	private void addAuthor() throws SQLException, IOException{
+		Main.showAddAuthorDialog();
+		System.out.println("After author dialog closed");
+		initializeAuthorsDB();
+	}
+		
+	private void addUser() throws SQLException, IOException{
+		Main.showAddUserDialog();
+		System.out.println("After dialog closed");
+		initializeUsersDB();
+	}
+		
+		
+	private void addBook() throws SQLException, IOException {
+		Main.showAddBookDialog();
+		System.out.println("After dialog closed");
+		initializeBooksDB();
+	}
+	
+	private void addLoan() throws IOException, SQLException{
+		System.out.println("We are at loan");
+		Main.showAddLoanDialog();
+		initializeLoansDB();
 	}
 	
 	@FXML
@@ -781,63 +962,6 @@ public class EditController implements Initializable {
 		else if(selectionModel.getSelectedIndex() == 6)
 			deleteLoanHistory();
 		else System.out.println("NOPE"); 
-	}
-	
-	private void addCategory() throws SQLException{
-		TextInputDialog dialog = new TextInputDialog("new category");
-		dialog.setTitle("Add category");
-		dialog.setHeaderText("You can now insert new category");
-		dialog.setContentText("Please enter new category:");
-		Optional<String> result = dialog.showAndWait();
-		
-		if(result.isPresent()){
-			String category = result.get();
-			String queryCheck = "select * from tbl_category where category = '" + category + "'";
-			
-			PreparedStatement checkPst = conn.prepareStatement(queryCheck);
-			ResultSet checkRs = checkPst.executeQuery(queryCheck);
-			
-			if(checkRs.next()) addCategory();
-			else{
-				String sql = "insert into tbl_category(category) values(?)";
-				System.out.println(sql);
-				PreparedStatement pst = conn.prepareStatement(sql);
-				pst.setString(1, category);
-				pst.executeUpdate();
-				initializeCategoriesDB();
-			}	
-		}
-	}
-	
-	
-	private void addPublisher() throws SQLException, IOException{
-		Main.showAddPublisherDialog();
-		System.out.println("After publusher dialog closed");
-		//initializePublishersDB();
-	}
-	
-	private void addAuthor() throws SQLException, IOException{
-		Main.showAddAuthorDialog();
-		System.out.println("After author dialog closed");
-		//initializeAuthorsDB();
-	}
-		
-	private void addUser() throws SQLException, IOException{
-		Main.showAddUserDialog();
-		System.out.println("After dialog closed");
-		//initializeUsersDB();
-	}
-		
-		
-	private void addBook() throws SQLException, IOException {
-		Main.showAddBookDialog();
-		System.out.println("After dialog closed");
-		//initializeBooksDB();
-	}
-	
-	private void addLoan() throws IOException{
-		System.out.println("We are at loan");
-		Main.showAddLoanDialog();
 	}
 	
 	@FXML
@@ -887,13 +1011,19 @@ public class EditController implements Initializable {
 		ResultSet checkRs = checkPst.executeQuery(query);
 		
 		if(checkRs.next()){
+			checkRs.close();
+			checkPst.close();
 			return true;
-		} else return false;
+		} else 
+			{
+				checkRs.close();
+				checkPst.close();
+				return false;
+			}
 	}
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
 		dc = new DbConnection();
 		conn = dc.connect();
 		
@@ -908,6 +1038,16 @@ public class EditController implements Initializable {
 		    		redeem.setVisible(true);
 		    	else
 		    		redeem.setVisible(false);
+		    	//
+		    	if(selectionModel.getSelectedIndex() == 6){
+		    		mainAdd.setVisible(false);
+		    		mainEdit.setVisible(false);
+		    		mainDelete.setVisible(false);
+		    	} else{
+		    		mainAdd.setVisible(true);
+		    		mainEdit.setVisible(true);
+		    		mainDelete.setVisible(true);
+		    	}
 		    }
 		});
 		
@@ -918,8 +1058,12 @@ public class EditController implements Initializable {
 				+ "-fx-background-insets: 0, 1; "
 				+ "-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 ); "
 				+ "-fx-text-fill: #395306; ");
+		//
 		
 		
+		
+		
+		/*
 		editTableBooks.setRowFactory(tv -> new TableRow<BookDetail>() {
 		    @Override
 		    public void updateItem(BookDetail item, boolean empty) {
@@ -938,6 +1082,7 @@ public class EditController implements Initializable {
 						e.printStackTrace();
 					}
 		    }
-		});
+		}); */ 
+		
 	}
 }

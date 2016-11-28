@@ -7,12 +7,6 @@ import javafx.fxml.FXML;
 
 public class LibController {
 	
-	
-	@FXML
-	private void handleLibrary() throws IOException{
-		Main.showMainLibrary();
-	}
-	
 	@FXML
 	private void handleUsers() throws IOException{
 		Main.showMainEdit();
@@ -21,5 +15,10 @@ public class LibController {
 	@FXML
 	private void handleText() throws IOException{
 		Main.showAddUserDialog();
+	}
+	
+	@FXML
+	private void handleAbout() throws IOException{
+		Main.about();
 	}
 }

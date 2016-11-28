@@ -104,7 +104,8 @@ public class EditUserDialogController implements Initializable{
 				pst.setString(8, postalCadeText.getText());
 				pst.setString(9, phoneText.getText());
 				pst.setString(10, emailText.getText());
-				pst.setInt(11, Integer.parseInt(secidText.getText()));
+				//pst.setInt(11, Integer.parseInt(secidText.getText()));
+				pst.setString(11, secidText.getText());
 				pst.setString(12, statusText.getText());
 				
 				pst.executeUpdate();
@@ -124,8 +125,9 @@ public class EditUserDialogController implements Initializable{
 	}
 	
 	private boolean checkUserInTable() throws SQLException{
-		String queryCheck = "select * from tbl_user where username = '" + usernameText.getText() + "' "
-				+ "or socsecnumber = '" + secidText.getText() + "'";
+		String queryCheck = "select * from tbl_user where (username = '" + usernameText.getText() + "' "
+				+ "or socsecnumber = '" + secidText.getText() + "') "
+						+ "and id <> " + user.getId() + " ";
 		
 		dc = new DbConnection();
 		conn = dc.connect();
@@ -175,7 +177,8 @@ public class EditUserDialogController implements Initializable{
 		postalCadeText.setText(user.getPostalCode());
 		phoneText.setText(user.getPhone());
 		emailText.setText(user.getEmail());
-		secidText.setText(String.valueOf(user.getSecId()));
+		//secidText.setText(String.valueOf(user.getSecId()));
+		secidText.setText(user.getPeselString());
 		statusText.setText(user.getStatus()); 
 		
 		dc = new DbConnection();

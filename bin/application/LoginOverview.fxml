@@ -32,8 +32,8 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <TextField fx:id="txtLogin" promptText="Login" />
-                        <PasswordField fx:id="txtPassword" promptText="Password" GridPane.rowIndex="1" />
+                        <TextField fx:id="txtLogin" onAction="#onEnter" promptText="Login" />
+                        <PasswordField fx:id="txtPassword" onAction="#onEnter" promptText="Password" GridPane.rowIndex="1" />
                         <Button fx:id="btnLogin" mnemonicParsing="false" onAction="#Button" prefHeight="25.0" prefWidth="278.0" text="Log in" GridPane.rowIndex="2">
                            <GridPane.margin>
                               <Insets />

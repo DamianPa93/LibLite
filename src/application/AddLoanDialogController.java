@@ -63,7 +63,6 @@ public class AddLoanDialogController implements Initializable{
 			
 			String sql = "insert into tbl_loan(user_id, book_id, loan_date, return_date, comments) "
 					+ "values (?,?,?,?,?)";
-			//date_format(DATE_ADD(sysdate(),INTERVAL 14 DAY), '%d.%m.%Y')
 			PreparedStatement pst = conn.prepareStatement(sql);
 			
 			pst.setInt(1, loan.user.getId());

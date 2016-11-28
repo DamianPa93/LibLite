@@ -59,7 +59,8 @@ public class EditCategoryController implements Initializable{
 	}
 	
 	private boolean checkCategoryInTable() throws SQLException{	
-		String queryCheck = "select * from tbl_category where category = '" + categoryText.getText() + "'";
+		String queryCheck = "select * from tbl_category where category = '" + categoryText.getText() + "' "
+				+ "and id <> " + category.getId() + " ";
 		
 		PreparedStatement checkPst = conn.prepareStatement(queryCheck);
 		ResultSet checkRs = checkPst.executeQuery(queryCheck);

@@ -24,6 +24,8 @@ public class User {
 	private final StringProperty apartment;
 	private final StringProperty postalCode;
 	private final IntegerProperty secId;
+	//public String peselString;
+	private StringProperty peselString;
 	
 	public User(int id ,String login, String name, String surname){
 		this.login = new SimpleStringProperty(login);
@@ -111,6 +113,29 @@ public class User {
 		this.orders = null;
 	}
 	
+	public User(int id, String login, String password, String name, String surname, String city, String street,
+			String apartment, String postalCode, String phone, String email, String secId, String status){
+	this.id = new SimpleIntegerProperty(id);
+	this.login = new SimpleStringProperty(login);
+	this.password = new SimpleStringProperty(password);
+	this.name = new SimpleStringProperty(name);
+	this.surname = new SimpleStringProperty(surname);
+	this.city = new SimpleStringProperty(city);
+	this.street = new SimpleStringProperty(street);
+	this.apartment = new SimpleStringProperty(apartment);
+	this.postalCode = new SimpleStringProperty(postalCode);
+	this.phone = new SimpleStringProperty(phone);
+	this.email = new SimpleStringProperty(email);
+	this.secId = null;
+	this.peselString = new SimpleStringProperty(secId);
+	this.status = new SimpleStringProperty(status);
+	//
+	this.books = null;
+	this.address = null;
+	this.pesel = null;
+	this.orders = null;
+}
+	
 	public String getLogin(){return login.get();}
 	public String getName(){return name.get();}
 	public String getAddress(){return address.get();}
@@ -129,6 +154,8 @@ public class User {
 	public String getApartment(){return apartment.get();}
 	public String getPostalCode(){return postalCode.get();}
 	public int getSecId(){return secId.get();}
+	//
+	public String getPeselString(){return peselString.get();}
 	
 	public void setLogin(String value){login.set(value);}
 	public void setName(String value){name.set(value);}
@@ -148,6 +175,8 @@ public class User {
 	public void setApartment(String value){apartment.set(value);}
 	public void setPostalCode(String value){postalCode.set(value);}
 	public void setSecId(int value){secId.set(value);}
+	//
+	public void setPeselString(String value){peselString.set(value);}
 	
 	public StringProperty loginProperty(){return login;}
 	public StringProperty nameProperty(){return name;}
@@ -167,6 +196,8 @@ public class User {
 	public StringProperty apartmentProperty(){return apartment;}
 	public StringProperty postalCodeProperty(){return postalCode;}
 	public IntegerProperty secIdProperty(){return secId;}
+	//
+	public StringProperty peselStringProperty(){return peselString;}
 	
 	@Override
 	public String toString(){

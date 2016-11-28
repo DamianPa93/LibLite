@@ -99,7 +99,8 @@ public class EditPublisherDialogController implements Initializable{
 	private boolean checkPublisherInTable() throws SQLException{	
 		String queryCheck = "select * from tbl_publisher where "
 				+ "name = '" + nameText.getText() + "' and second_name = '" + surnameText.getText() +"' "
-						+ "and organization = '" + organizationText.getText() + "'";
+						+ "and organization = '" + organizationText.getText() + "' "
+								+ "and id <> " + publisher.getId() + " ";
 		
 		PreparedStatement checkPst = conn.prepareStatement(queryCheck);
 		ResultSet checkRs = checkPst.executeQuery(queryCheck);

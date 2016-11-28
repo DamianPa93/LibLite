@@ -11,7 +11,7 @@
    <children>
       <ToolBar layoutX="14.0" layoutY="20.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <items>
-            <Label text="Add User">
+            <Label text="Edit User">
                <font>
                   <Font size="14.0" />
                </font>
@@ -70,7 +70,7 @@
             <PasswordField fx:id="confirmText" promptText="Password" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
-      <Button fx:id="buttonSave" layoutX="113.0" layoutY="395.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="Add" />
+      <Button fx:id="buttonSave" layoutX="113.0" layoutY="395.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="Save" />
       <Button fx:id="buttonCancel" layoutX="217.0" layoutY="395.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="Cancel" AnchorPane.rightAnchor="8.0" />
    </children>
 </AnchorPane>

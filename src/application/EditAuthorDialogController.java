@@ -102,7 +102,8 @@ public class EditAuthorDialogController implements Initializable{
 	
 	private boolean checkAuthorInTable() throws SQLException{	
 		String queryCheck = "select * from tbl_author a where "
-				+ "a.name = '" + nameText.getText() + "' and a.surname = '" + surnameText.getText() + "' ";
+				+ "(a.name = '" + nameText.getText() + "' and a.surname = '" + surnameText.getText() + "')"
+						+ " and id <> " + author.getId() + " ";
 		
 		PreparedStatement checkPst = conn.prepareStatement(queryCheck);
 		ResultSet checkRs = checkPst.executeQuery(queryCheck);
