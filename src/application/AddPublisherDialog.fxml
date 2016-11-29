@@ -37,10 +37,10 @@
             <Label text="Surname:" GridPane.rowIndex="1" />
             <Label text="Organization:" GridPane.rowIndex="2" />
             <Label text="Country:" GridPane.rowIndex="3" />
-            <TextField fx:id="nameText" GridPane.columnIndex="1" />
-            <TextField fx:id="surnameText" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField fx:id="organizationText" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField fx:id="countryText" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="nameText" promptText="name" GridPane.columnIndex="1" />
+            <TextField fx:id="surnameText" promptText="surname" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="organizationText" promptText="organization" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="countryText" promptText="country" GridPane.columnIndex="1" GridPane.rowIndex="3" />
          </children>
       </GridPane>
       <Button layoutX="111.0" layoutY="181.0" mnemonicParsing="false" onAction="#handleAddButton" prefHeight="25.0" prefWidth="80.0" text="Add" />

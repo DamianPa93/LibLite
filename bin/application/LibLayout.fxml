@@ -23,7 +23,7 @@
    <left>
       <ToolBar orientation="VERTICAL" prefHeight="375.0" prefWidth="64.0" BorderPane.alignment="CENTER">
         <items>
-            <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleUsers" prefHeight="25.0" prefWidth="65.0" text="Library" />
+            <Button fx:id="libraryButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleUsers" prefHeight="25.0" prefWidth="65.0" text="Library" />
         </items>
       </ToolBar>
    </left>

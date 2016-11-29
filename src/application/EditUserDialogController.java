@@ -75,6 +75,32 @@ public class EditUserDialogController implements Initializable{
 			userWarnings("Some brackets are empty","Fill empty brackets");
 		} else if(!(passwordText.getText().equals(confirmText.getText())))
 			userWarnings("Invalid password","Password does not match");
+		else if(!statusText.getText().equals("A")&&!statusText.getText().equals("I"))
+			userWarnings("Invalid user status","User status:\nA - Active\nI - Inactive");
+		else if(nameText.getLength() > 20)
+			userWarnings("Too long (" + nameText.getLength() + ")","Value for 'Name' is too long. Max string length is 20");
+		else if(surnameText.getLength() > 20)
+			userWarnings("Too long (" + surnameText.getLength() + ")","Value for 'Surname' is too long. Max string length is 20");
+		else if(usernameText.getLength() > 12)
+			userWarnings("Too long (" + usernameText.getLength() + ")","Value for 'Username' is too long. Max string length is 12");
+		else if(passwordText.getLength() > 12)
+			userWarnings("Too long (" + passwordText.getLength() + ")","Value for 'Password' is too long. Max string length is 12");
+		else if(cityText.getLength() > 15)
+			userWarnings("Too long (" + cityText.getLength() + ")","Value for 'City' is too long. Max string length is 15");
+		else if(streetText.getLength() > 15)
+			userWarnings("Too long (" + streetText.getLength() + ")","Value for 'Street' is too long. Max string length is 15");
+		else if(apartmentText.getLength() > 5)
+			userWarnings("Too long (" + apartmentText.getLength() + ")","Value for 'Apartment' is too long. Max string length is 5");
+		else if(postalCadeText.getLength() > 15)
+			userWarnings("Too long (" + postalCadeText.getLength() + ")","Value for 'PostalCode' is too long. Max string length is 15");
+		else if(phoneText.getLength() > 15)
+			userWarnings("Too long (" + phoneText.getLength() + ")","Value for 'Phone' is too long. Max string length is 15");
+		else if(emailText.getLength() > 35)
+			userWarnings("Too long (" + emailText.getLength() + ")","Value for 'Email' is too long. Max string length is 35");
+		else if(secidText.getLength() > 15)
+			userWarnings("Too long (" + secidText.getLength() + ")","Value for 'SECID' is too long. Max string length is 15");
+		else if(statusText.getLength() > 1)
+			userWarnings("Too long (" + statusText.getLength() + ")","Value for 'Status' is too long. Max string length is 1");
 		else {
 			if(checkUserInTable()){
 				String sql = "update tbl_user set username = ? ,"

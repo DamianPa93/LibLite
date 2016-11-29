@@ -39,11 +39,11 @@
             <Label text="Country:" GridPane.rowIndex="2" />
             <Label text="Birthdate:" GridPane.rowIndex="3" />
             <Label text="Comments:" GridPane.rowIndex="4" />
-            <TextField fx:id="nameText" GridPane.columnIndex="1" />
-            <TextField fx:id="surnameText" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField fx:id="countryText" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField fx:id="commentsText" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <DatePicker fx:id="birthText" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="nameText" promptText="name" GridPane.columnIndex="1" />
+            <TextField fx:id="surnameText" promptText="surname" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="countryText" promptText="country" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="commentsText" promptText="comments" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <DatePicker fx:id="birthText" promptText="02.11.2016" GridPane.columnIndex="1" GridPane.rowIndex="3" />
          </children>
       </GridPane>
       <Button fx:id="saveButton" layoutX="111.0" layoutY="209.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="Save" />

@@ -161,18 +161,25 @@ public class AddBookDialogController implements Initializable{
 			bookWarnings("Fill empty brackets", "Title and ISBN number cannot be null");
 		} else if(amountText.getLength() == 0 || Integer.parseInt(amountText.getText()) <= 0)
 			bookWarnings("Invalid book number", "Fill book amount");
+		else if(isbnText.getLength() > 25)
+			bookWarnings("Too long (" + isbnText.getLength() + ")","Value for 'ISBN' is too long. Max string length is 25");
+		else if(titleText.getLength() > 100)
+			bookWarnings("Too long (" + titleText.getLength() + ")","Value for 'Title' is too long. Max string length is 100");
+		else if(commentsText.getLength() > 60)
+			bookWarnings("Too long (" + commentsText.getLength() + ")","Value for 'Comments' is too long. Max string length is 60");
 		else {
-			System.out.println(testText.getText());
+			
 			
 			Category c1 = checkCategory(cc1.getText());
-			Category c2 = checkCategory(cc1.getText());
-			Category c3 = checkCategory(cc1.getText());
+			Category c2 = checkCategory(cc2.getText());
+			Category c3 = checkCategory(cc3.getText());
 			Author a = checkAuthor(aa1.getText());
 			Publisher p = checkPublisher(pp1.getText());
 			
+			
 			book = new BookDetail(isbnText.getText(),a,c1,
 					c2,c3,
-					titleText.getText(),p, dateCombo.getSelectionModel().getSelectedItem().toString(),
+					titleText.getText(),p,  dateCombo.getSelectionModel().getSelectedItem().toString(),
 					ratingCombo.getSelectionModel().getSelectedItem().toString(),commentsText.getText());
 			System.out.println("We've got Book sir");
 			
@@ -200,7 +207,9 @@ public class AddBookDialogController implements Initializable{
 				else pst.setInt(5, book.pub.getId());
 				pst.setString(6, book.getIsbn());
 				pst.setString(7, book.getTitle());
-				pst.setString(8, book.getDateOfPublication());
+				if(book.getDateOfPublication().length() == 0)
+					pst.setNull(8, Types.INTEGER);
+				else pst.setString(8, book.getDateOfPublication());
 				pst.setInt(9, Integer.parseInt(book.strRating));
 				if(book.getComments().length() == 0)
 					pst.setNull(10, Types.INTEGER);
@@ -214,11 +223,11 @@ public class AddBookDialogController implements Initializable{
 				
 				
 				bookSuccess();
-				handleCancelButton();
+				handleCancelButton(); 
 				
 			} else {
 				bookWarnings("Arleady exists", "Book with this ISBN number arleady exists in database");
-			}
+			} 
 		} 
 	}
 	//
@@ -278,6 +287,7 @@ public class AddBookDialogController implements Initializable{
 			year.add(Integer.toString(i));
 		
 		dateCombo.getItems().addAll(year);
+		dateCombo.setValue(year.get(0));
 		
 		ratingCombo.getItems().addAll(5,4,3,2,1,0);
 		ratingCombo.setValue(5);

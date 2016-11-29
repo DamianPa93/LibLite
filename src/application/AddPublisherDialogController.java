@@ -31,7 +31,16 @@ public class AddPublisherDialogController {
 	private void handleAddButton() throws SQLException{
 		if(nameText.getLength() == 0 && surnameText.getLength() == 0 && organizationText.getLength() == 0){
 			publisherWarnings("Null values","Insert name value at least into one bracket");
-		} else {
+		} 
+		else if(nameText.getText().length() > 25)
+			publisherWarnings("Too long (" + nameText.getLength() + ")","Value for 'Name' is too long. Max string length is 25");
+		else if(surnameText.getText().length() > 25)
+			publisherWarnings("Too long (" + surnameText.getLength() + ")","Value for 'Surname' is too long. Max string length is 25");
+		else if(organizationText.getText().length() > 25)
+			publisherWarnings("Too long (" + organizationText.getLength() + ")","Value for 'Organization' is too long. Max string length is 25");
+		else if(countryText.getText().length() > 20)
+			publisherWarnings("Too long (" + countryText.getLength() + ")","Value for 'Country' is too long. Max string length is 20");
+		else {
 			publisher = new Publisher(nameText.getText(),surnameText.getText(),organizationText.getText(),countryText.getText());
 			showPublisher();
 			if(checkPublisherInTable()){

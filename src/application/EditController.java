@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import application.model.Author;
@@ -360,7 +362,6 @@ public class EditController implements Initializable {
 	
 	@FXML
 	public void onEnterUser(ActionEvent ae) throws SQLException{
-		   System.out.println("test") ;
 		   initializeUsersDB();
 	}
 	
@@ -439,8 +440,14 @@ public class EditController implements Initializable {
 		editTableUsers.setItems(dataUser);
 	}
 	
+	List<Integer> borrows;
+	
 	@FXML
 	private void initializeBooksDB() throws SQLException{
+		//
+		//ObservableList<BookDetail> borrows = FXCollections.observableArrayList();
+		
+		//
 		dataBooks = FXCollections.observableArrayList();
 		
 		String searchText = editText2.getText();
@@ -474,6 +481,16 @@ public class EditController implements Initializable {
 			System.out.println(rs.getString(1) + "|" + rs.getString(2));
 		} 
 		
+		//
+		borrows = new ArrayList<Integer>();
+		sql = "select book_id from tbl_loan";
+		pst = conn.prepareStatement(sql);
+		rs = pst.executeQuery(sql);
+		while(rs.next()){
+			borrows.add(rs.getInt(1));
+		}
+		//
+		
 		editTab2Col1.setCellValueFactory(new PropertyValueFactory<>("id"));
 		editTab2Col2.setCellValueFactory(new PropertyValueFactory<>("title"));
 		editTab2Col3.setCellValueFactory(new PropertyValueFactory<>("category"));
@@ -486,6 +503,7 @@ public class EditController implements Initializable {
 		
 		editTableBooks.setItems(null);
 		editTableBooks.setItems(dataBooks); 
+		
 	}
 	
 	@FXML
@@ -894,12 +912,21 @@ public class EditController implements Initializable {
 				addCategory();
 			}
 			else{
-				String sql = "insert into tbl_category(category) values(?)";
-				System.out.println(sql);
-				PreparedStatement pst = conn.prepareStatement(sql);
-				pst.setString(1, category);
-				pst.executeUpdate();
-				initializeCategoriesDB();
+				if(category.length() <= 15){
+					String sql = "insert into tbl_category(category) values(?)";
+					System.out.println(sql);
+					PreparedStatement pst = conn.prepareStatement(sql);
+					pst.setString(1, category);
+					pst.executeUpdate();
+					//initializeCategoriesDB();
+				} else{
+					Alert alert = new Alert(AlertType.WARNING,"",ButtonType.OK, ButtonType.CLOSE);
+					alert.setTitle("WARNING");
+					alert.setHeaderText("Too long (" + category.length() + ")");
+					alert.setContentText("Value max length is 15");
+					alert.showAndWait();
+					addCategory();
+				}
 			}	
 		}
 	}
@@ -915,32 +942,32 @@ public class EditController implements Initializable {
 	private void addPublisher() throws SQLException, IOException{
 		Main.showAddPublisherDialog();
 		System.out.println("After publusher dialog closed");
-		initializePublishersDB();
+		//initializePublishersDB();
 	}
 	
 	private void addAuthor() throws SQLException, IOException{
 		Main.showAddAuthorDialog();
 		System.out.println("After author dialog closed");
-		initializeAuthorsDB();
+		//initializeAuthorsDB();
 	}
 		
 	private void addUser() throws SQLException, IOException{
 		Main.showAddUserDialog();
 		System.out.println("After dialog closed");
-		initializeUsersDB();
+		//initializeUsersDB();
 	}
 		
 		
 	private void addBook() throws SQLException, IOException {
 		Main.showAddBookDialog();
 		System.out.println("After dialog closed");
-		initializeBooksDB();
+		//initializeBooksDB();
 	}
 	
 	private void addLoan() throws IOException, SQLException{
 		System.out.println("We are at loan");
 		Main.showAddLoanDialog();
-		initializeLoansDB();
+		//initializeLoansDB();
 	}
 	
 	@FXML
@@ -1001,7 +1028,7 @@ public class EditController implements Initializable {
 			editLoan();
 	}
 	
-	private boolean checkIfOutOfStock(BookDetail book) throws SQLException{
+	/*private boolean checkIfOutOfStock(BookDetail book) throws SQLException{
 		String query = "select * from tbl_loan where book_id = " + book.getId() + " ";
 		
 		dc = new DbConnection();
@@ -1020,6 +1047,13 @@ public class EditController implements Initializable {
 				checkPst.close();
 				return false;
 			}
+	} */
+	
+	private boolean checkIfOutOfStock(BookDetail book) throws SQLException{
+		
+		if(borrows.contains(book.getId())){
+			return true;
+		} else return false;
 	}
 	
 	@Override
@@ -1063,7 +1097,6 @@ public class EditController implements Initializable {
 		
 		
 		
-		/*
 		editTableBooks.setRowFactory(tv -> new TableRow<BookDetail>() {
 		    @Override
 		    public void updateItem(BookDetail item, boolean empty) {
@@ -1075,14 +1108,14 @@ public class EditController implements Initializable {
 						if (checkIfOutOfStock(item)) {
 						    setStyle("-fx-background-color: tomato;");
 						} else {
-						    setStyle("");
+						    setStyle("-fx-background-color: #ADFF2F;");
 						}
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 		    }
-		}); */ 
+		}); 
 		
 	}
 }

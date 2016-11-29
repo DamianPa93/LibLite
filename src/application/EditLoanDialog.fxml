@@ -38,12 +38,12 @@
             <Label text="Loan date:" GridPane.rowIndex="2" />
             <Label text="Comments:" GridPane.rowIndex="4" />
             <Label text="Borrower:" />
-            <ComboBox fx:id="borrowerCombo" prefWidth="171.0" GridPane.columnIndex="1" />
-            <ComboBox fx:id="bookCombo" prefWidth="171.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <DatePicker fx:id="datePicker" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField fx:id="commentsText" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <DatePicker fx:id="datePicker" promptText="02.11.2016" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="commentsText" promptText="comments" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <Label text="Return date:" GridPane.rowIndex="3" />
-            <DatePicker fx:id="datePicker2" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <DatePicker fx:id="datePicker2" promptText="02.11.2016" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="userText" promptText="borrower" GridPane.columnIndex="1" />
+            <TextField fx:id="bookText" promptText="book" GridPane.columnIndex="1" GridPane.rowIndex="1" />
          </children>
       </GridPane>
       <Button fx:id="buttonSave" layoutX="111.0" layoutY="207.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="Save" AnchorPane.rightAnchor="99.0" />

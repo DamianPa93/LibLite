@@ -35,7 +35,15 @@ public class AddAuthorDialogController {
 		if(nameText.getLength() == 0 ||
 				surnameText.getLength() == 0){
 			authorWarnings("Null values","Name and surname cannot be null");
-		} else {
+		} else if(nameText.getLength() > 25) 
+			authorWarnings("Too long (" + nameText.getLength() + ")","Value for 'Name' is too long. Max string length is 25");
+		else if(surnameText.getLength() > 25) 
+			authorWarnings("Too long (" + surnameText.getLength() + ")","Value for 'Surname' is too long. Max string length is 25");
+		else if(countryText.getLength() > 20) 
+			authorWarnings("Too long (" + countryText.getLength() + ")","Value for 'Country' is too long. Max string length is 20");
+		else if(commentsText.getLength() > 45) 
+			authorWarnings("Too long (" + commentsText.getLength() + ")","Value for 'Comments' is too long. Max string length is 45");
+		else {
 			author = new Author(nameText.getText(),surnameText.getText(),
 					countryText.getText(),((TextField)birthText.getEditor()).getText(),
 					commentsText.getText());

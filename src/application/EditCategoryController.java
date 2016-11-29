@@ -38,6 +38,8 @@ public class EditCategoryController implements Initializable{
 	private void handleSaveButton() throws SQLException{
 		if(categoryText.getText().length() == 0)
 			categoryWarnings("Null value","Insert category value into bracket"); 
+		else if(categoryText.getText().length() > 15)
+			categoryWarnings("Too long (" + categoryText.getLength() + ")","Max value length is 15"); 
 		else {
 			if(checkCategoryInTable()){
 				String sql = "update tbl_category set category = ? where id = " + category.getId();
