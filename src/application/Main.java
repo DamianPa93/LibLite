@@ -32,6 +32,7 @@ public class Main extends Application{
 		mainBorderLayout = loader.load();
 		Scene scene = new Scene(mainBorderLayout);
 		primaryStage.setScene(scene);
+		primaryStage.centerOnScreen();
 		primaryStage.show();
 	}
 	

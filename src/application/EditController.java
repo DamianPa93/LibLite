@@ -322,6 +322,8 @@ public class EditController implements Initializable {
 		
 		editTableLoanHistory.setItems(null);
 		editTableLoanHistory.setItems(dataLoanHistory);
+		rs.close();
+		pst.close();
 	}
 	
 	
@@ -358,6 +360,9 @@ public class EditController implements Initializable {
 		
 		editTableLoans.setItems(null);
 		editTableLoans.setItems(dataLoans);
+		rs.close();
+		pst.close();
+		System.out.println("Loans closed");
 	}
 	
 	@FXML
@@ -422,6 +427,14 @@ public class EditController implements Initializable {
 					rs.getString(7),rs.getString(8),rs.getString(9),rs.getString(10),rs.getString(11),rs.getString(12),rs.getString(13)));
 		} 
 		
+		userBorrows = new ArrayList<Integer>();
+		sql = "select user_id from tbl_loan";
+		pst = conn.prepareStatement(sql);
+		rs = pst.executeQuery(sql);
+		while(rs.next()){
+			userBorrows.add(rs.getInt(1));
+		}
+		
 		editTab1Col1.setCellValueFactory(new PropertyValueFactory<>("id"));
 		editTab1Col2.setCellValueFactory(new PropertyValueFactory<>("login"));
 		editTab1Col3.setCellValueFactory(new PropertyValueFactory<>("password"));
@@ -438,9 +451,13 @@ public class EditController implements Initializable {
 		
 		editTableUsers.setItems(null);
 		editTableUsers.setItems(dataUser);
+		rs.close();
+		pst.close();
+		System.out.println("Users closed");
 	}
 	
 	List<Integer> borrows;
+	List<Integer> userBorrows;
 	
 	@FXML
 	private void initializeBooksDB() throws SQLException{
@@ -503,7 +520,9 @@ public class EditController implements Initializable {
 		
 		editTableBooks.setItems(null);
 		editTableBooks.setItems(dataBooks); 
-		
+		rs.close();
+		pst.close();
+		System.out.println("Books closed");
 	}
 	
 	@FXML
@@ -527,6 +546,9 @@ public class EditController implements Initializable {
 		
 		editTableCategories.setItems(null);
 		editTableCategories.setItems(dataCategories);
+		rs.close();
+		pst.close();
+		System.out.println("Categories closed");
 	}
 	
 	@FXML
@@ -558,6 +580,9 @@ public class EditController implements Initializable {
 		
 		editTableAuthors.setItems(null);
 		editTableAuthors.setItems(dataAuthors);
+		rs.close();
+		pst.close();
+		System.out.println("Authors closed");
 	}
 	
 	@FXML
@@ -588,6 +613,9 @@ public class EditController implements Initializable {
 		
 		editTablePublishers.setItems(null);
 		editTablePublishers.setItems(dataPublishers);
+		rs.close();
+		pst.close();
+		System.out.println("Publishers closed");
 	}
 	
 	
@@ -759,6 +787,28 @@ public class EditController implements Initializable {
 			//System.out.println("NO ROW SELECTED");
 	}
 	
+	@FXML
+	private void multipleBook() throws IOException, SQLException{
+		BookDetail book = editTableBooks.getSelectionModel().getSelectedItem();
+		if(editTableBooks.getSelectionModel().getSelectedIndex() >= 0){
+			System.out.println("We are in multiply user Sir!");
+			
+			String sql = "insert into tbl_book(id_category_1,id_category_2,id_category_3,id_author, "
+					+ " id_publisher, isbn, title,date_of_publication,book_rating) "
+					+ "select id_category_1,id_category_2,id_category_3,id_author, "
+					+ " id_publisher, isbn, title,date_of_publication,book_rating "
+					+ "from tbl_book where id = " + book.getId() + " ";
+			
+			PreparedStatement pst = conn.prepareStatement(sql);
+			
+			pst.executeUpdate();
+			initializeBooksDB();
+			pst.close();
+		}
+		else noRowSelected();
+			//System.out.println("NO ROW SELECTED");
+	}
+	
 	private void editLoan() throws IOException, SQLException{
 		Loan loan = editTableLoans.getSelectionModel().getSelectedItem();
 		if(editTableLoans.getSelectionModel().getSelectedIndex() >= 0){
@@ -847,6 +897,26 @@ public class EditController implements Initializable {
 			//System.out.println("NO ROW SELECTED");
 	}
 	
+	@FXML
+	private void deleteBooks() throws SQLException{
+		BookDetail book = editTableBooks.getSelectionModel().getSelectedItem();
+		
+		if(editTableBooks.getSelectionModel().getSelectedIndex() >= 0){
+			
+			if(deleteWarning()){
+				System.out.println(selectionModel.getSelectedIndex() + " " + book.getIsbn());
+				String sql = "delete from tbl_book where isbn = ?";
+				PreparedStatement pst = conn.prepareStatement(sql);
+				pst.setString(1, book.getIsbn());
+				pst.executeUpdate();
+				initializeBooksDB();
+				pst.close();
+			}
+		}
+		else noRowSelected();
+			//System.out.println("NO ROW SELECTED");
+	}
+	
 	private void deleteUser() throws SQLException{
 		User user = editTableUsers.getSelectionModel().getSelectedItem();
 		if(editTableUsers.getSelectionModel().getSelectedIndex() >= 0){
@@ -908,7 +978,7 @@ public class EditController implements Initializable {
 			ResultSet checkRs = checkPst.executeQuery(queryCheck);
 			
 			if(checkRs.next()) {
-				categoryWarnings();
+				categoryWarnings("Category arelady in base","Category with that name is already in base");
 				addCategory();
 			}
 			else{
@@ -918,56 +988,53 @@ public class EditController implements Initializable {
 					PreparedStatement pst = conn.prepareStatement(sql);
 					pst.setString(1, category);
 					pst.executeUpdate();
-					//initializeCategoriesDB();
+					categoryWarnings("Success!", "New category created");
+					initializeCategoriesDB();
 				} else{
-					Alert alert = new Alert(AlertType.WARNING,"",ButtonType.OK, ButtonType.CLOSE);
-					alert.setTitle("WARNING");
-					alert.setHeaderText("Too long (" + category.length() + ")");
-					alert.setContentText("Value max length is 15");
-					alert.showAndWait();
+					categoryWarnings("Too long (" + category.length() + ")","Value max length is 15");
 					addCategory();
 				}
 			}	
 		}
 	}
 	
-	private void categoryWarnings(){
+	private void categoryWarnings(String header, String content){
 		Alert alert = new Alert(AlertType.WARNING,"",ButtonType.OK, ButtonType.CLOSE);
 		alert.setTitle("WARNING");
-		alert.setHeaderText("Category arelady in base");
-		alert.setContentText("Category with that name is already in base");
+		alert.setHeaderText(header);
+		alert.setContentText(content);
 		alert.showAndWait();
 	}
 	
 	private void addPublisher() throws SQLException, IOException{
 		Main.showAddPublisherDialog();
 		System.out.println("After publusher dialog closed");
-		//initializePublishersDB();
+		initializePublishersDB();
 	}
 	
 	private void addAuthor() throws SQLException, IOException{
 		Main.showAddAuthorDialog();
 		System.out.println("After author dialog closed");
-		//initializeAuthorsDB();
+		initializeAuthorsDB();
 	}
 		
 	private void addUser() throws SQLException, IOException{
 		Main.showAddUserDialog();
 		System.out.println("After dialog closed");
-		//initializeUsersDB();
+		initializeUsersDB();
 	}
 		
 		
 	private void addBook() throws SQLException, IOException {
 		Main.showAddBookDialog();
 		System.out.println("After dialog closed");
-		//initializeBooksDB();
+		initializeBooksDB();
 	}
 	
 	private void addLoan() throws IOException, SQLException{
 		System.out.println("We are at loan");
 		Main.showAddLoanDialog();
-		//initializeLoansDB();
+		initializeLoansDB();
 	}
 	
 	@FXML
@@ -1049,6 +1116,11 @@ public class EditController implements Initializable {
 			}
 	} */
 	
+	@FXML
+	private Button multipler;
+	@FXML
+	private Button minuser;
+	
 	private boolean checkIfOutOfStock(BookDetail book) throws SQLException{
 		
 		if(borrows.contains(book.getId())){
@@ -1056,12 +1128,31 @@ public class EditController implements Initializable {
 		} else return false;
 	}
 	
+	private boolean checkUserBorrows(User user){
+		if(userBorrows.contains(user.getId())){
+			return true;
+		} else return false;
+	}
+	
+	private boolean checkUserActivity(User user){
+		if(user.getStatus().equals("A"))
+			return false;
+		else return true;
+	}
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		dc = new DbConnection();
 		conn = dc.connect();
-		
+		try {
+			initializeUsersDB();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		redeem.setVisible(false);
+		multipler.setVisible(false);
+		minuser.setVisible(false);
 		
 		selectionModel = editTabPane.getSelectionModel();
 		
@@ -1072,6 +1163,13 @@ public class EditController implements Initializable {
 		    		redeem.setVisible(true);
 		    	else
 		    		redeem.setVisible(false);
+		    	if(selectionModel.getSelectedIndex() == 1){
+		    		multipler.setVisible(true);
+		    		minuser.setVisible(true);
+		    	} else {
+		    		multipler.setVisible(false);
+		    		minuser.setVisible(false);
+		    	}
 		    	//
 		    	if(selectionModel.getSelectedIndex() == 6){
 		    		mainAdd.setVisible(false);
@@ -1106,9 +1204,14 @@ public class EditController implements Initializable {
 		        } else
 					try {
 						if (checkIfOutOfStock(item)) {
-						    setStyle("-fx-background-color: tomato;");
+							setStyle("-fx-control-inner-background: derive(orange, -40%);"
+									+ "-fx-accent: derive(-fx-control-inner-background, -40%);"
+									+ "-fx-cell-hover-color: derive(-fx-control-inner-background, -20%);");
 						} else {
-						    setStyle("-fx-background-color: #ADFF2F;");
+						    //setStyle("-fx-background-color:lightgreen");
+							setStyle("-fx-control-inner-background: PaleGreen  ;"
+									+ "-fx-accent: derive(-fx-control-inner-background, -40%);"
+									+ "-fx-cell-hover-color: derive(-fx-control-inner-background, -20%);");
 						}
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
@@ -1117,5 +1220,129 @@ public class EditController implements Initializable {
 		    }
 		}); 
 		
-	}
+		//editTableUsers
+		
+		editTableUsers.setRowFactory(tv -> new TableRow<User>() {
+		    @Override
+		    public void updateItem(User item, boolean empty) {
+		        super.updateItem(item, empty) ;
+		        if (item == null) {
+		            setStyle("");
+		        } else if(checkUserBorrows(item)){
+		        	setStyle("-fx-control-inner-background: derive(orange, -40%);"
+							+ "-fx-accent: derive(-fx-control-inner-background, -40%);"
+							+ "-fx-cell-hover-color: derive(-fx-control-inner-background, -20%);");
+		        } else if (checkUserActivity(item)) {
+					setStyle("-fx-control-inner-background: derive(#FF4500, -40%);"
+							+ "-fx-accent: derive(-fx-control-inner-background, +40%);"
+							+ "-fx-cell-hover-color: derive(-fx-control-inner-background, -20%);");
+				} else {
+				    //setStyle("-fx-background-color:lightgreen");
+					setStyle("-fx-control-inner-background: PaleGreen;"
+							+ "-fx-accent: derive(-fx-control-inner-background, -40%);"
+							+ "-fx-cell-hover-color: derive(-fx-control-inner-background, -20%);");
+				}
+		    }
+		}); 
+		
+		editTableCategories.setRowFactory(tv -> new TableRow<Category>() {
+		    @Override
+		    public void updateItem(Category item, boolean empty) {
+		        super.updateItem(item, empty) ;
+		        if (item == null) {
+		            setStyle("");
+		        } else {
+		        	setStyle("-fx-control-inner-background: PaleGreen ;"
+							+ "-fx-accent: derive(-fx-control-inner-background, -40%);"
+							+ "-fx-cell-hover-color: derive(-fx-control-inner-background, -20%);");
+				} 
+		    }
+		}); 
+		
+		editTableAuthors.setRowFactory(tv -> new TableRow<Author>() {
+		    @Override
+		    public void updateItem(Author item, boolean empty) {
+		        super.updateItem(item, empty) ;
+		        if (item == null) {
+		            setStyle("");
+		        } else {
+		        	setStyle("-fx-control-inner-background: PaleGreen;"
+							+ "-fx-accent: derive(-fx-control-inner-background, -40%);"
+							+ "-fx-cell-hover-color: derive(-fx-control-inner-background, -20%);");
+				} 
+		    }
+		}); 
+		
+		
+		editTablePublishers.setRowFactory(tv -> new TableRow<Publisher>() {
+		    @Override
+		    public void updateItem(Publisher item, boolean empty) {
+		        super.updateItem(item, empty) ;
+		        if (item == null) {
+		            setStyle("");
+		        } else {
+		        	setStyle("-fx-control-inner-background: PaleGreen;"
+							+ "-fx-accent: derive(-fx-control-inner-background, -40%);"
+							+ "-fx-cell-hover-color: derive(-fx-control-inner-background, -20%);");
+				} 
+		    }
+		}); 
+		
+		editTableLoans.setRowFactory(tv -> new TableRow<Loan>() {
+		    @Override
+		    public void updateItem(Loan item, boolean empty) {
+		        super.updateItem(item, empty) ;
+		        if (item == null) {
+		            setStyle("");
+		        } else {
+					setStyle("-fx-control-inner-background: #9ACD32;"
+							+ "-fx-accent: derive(-fx-control-inner-background, -40%);"
+							+ "-fx-cell-hover-color: derive(-fx-control-inner-background, -20%);");
+				} 
+		    }
+		}); 
+		
+		editTableLoanHistory.setRowFactory(tv -> new TableRow<Loan>() {
+		    @Override
+		    public void updateItem(Loan item, boolean empty) {
+		        super.updateItem(item, empty) ;
+		        if (item == null) {
+		            setStyle("");
+		        } else {
+					setStyle("-fx-control-inner-background: #FFA500   ;"
+							+ "-fx-accent: derive(-fx-control-inner-background, -40%);"
+							+ "-fx-cell-hover-color: derive(-fx-control-inner-background, -20%);");
+				} 
+		    }
+		}); 
+		
+		editTabPane.getSelectionModel().selectedItemProperty().addListener(
+			    new ChangeListener<Tab>() {
+			        @Override
+			        public void changed(ObservableValue<? extends Tab> ov, Tab t, Tab t1) {
+			        	selectionModel = editTabPane.getSelectionModel();
+			            System.out.println("Tab Selection changed " + selectionModel.getSelectedIndex()) ;
+			            try {
+				            if(selectionModel.getSelectedIndex() == 4)
+								initializePublishersDB();
+							if(selectionModel.getSelectedIndex() == 3)
+								initializeAuthorsDB();
+							if(selectionModel.getSelectedIndex() == 2)
+								initializeCategoriesDB();
+							if(selectionModel.getSelectedIndex() == 0)
+								initializeUsersDB();
+							if(selectionModel.getSelectedIndex() == 1)
+								initializeBooksDB();
+							if(selectionModel.getSelectedIndex() == 5)
+								initializeLoansDB();
+							if(selectionModel.getSelectedIndex() == 6)
+								initializeLoanHistoryDB();
+						} catch (SQLException e) {
+								
+							e.printStackTrace();
+						}
+			        }
+			    }
+			);
+	}	
 }

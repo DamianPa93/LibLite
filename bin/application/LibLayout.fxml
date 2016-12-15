@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane prefHeight="300.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.LibController">
+<BorderPane prefHeight="646.0" prefWidth="1315.0" styleClass="background" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.LibController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -21,9 +21,12 @@
       </MenuBar>
    </top>
    <left>
-      <ToolBar orientation="VERTICAL" prefHeight="375.0" prefWidth="64.0" BorderPane.alignment="CENTER">
+      <ToolBar orientation="VERTICAL" prefHeight="265.0" prefWidth="64.0" BorderPane.alignment="CENTER">
         <items>
-            <Button fx:id="libraryButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleUsers" prefHeight="25.0" prefWidth="65.0" text="Library" />
+            <Button fx:id="libraryButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleUsers" prefHeight="50.0" prefWidth="90.0" text="Library">
+               <font>
+                  <Font size="15.0" />
+               </font></Button>
         </items>
       </ToolBar>
    </left>

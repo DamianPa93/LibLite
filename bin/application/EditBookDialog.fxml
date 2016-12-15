@@ -50,15 +50,18 @@
             <Label text="Rating" GridPane.rowIndex="8" />
             <Label text="Comments" GridPane.rowIndex="9" />
             <TextField fx:id="titleText" promptText="title" GridPane.columnIndex="1" />
-            <TextField fx:id="isbnText" promptText="ISBN" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <TextField fx:id="commentsText" promptText="comments" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-            <ComboBox fx:id="ratingCombo" prefWidth="171.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
             <TextField fx:id="c1" promptText="category" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="c2" promptText="category" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField fx:id="c3" promptText="category" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <TextField fx:id="a1" promptText="author" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <TextField fx:id="p1" promptText="publisher" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <TextField fx:id="isbnText" promptText="ISBN" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             <ComboBox fx:id="dateCombo" prefWidth="171.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <ComboBox fx:id="ratingCombo" prefWidth="171.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <TextField fx:id="commentsText" promptText="comments" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+            
+            
+            
          </children>
       </GridPane>
       <Button fx:id="buttonCancel" layoutX="202.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="Cancel" AnchorPane.rightAnchor="8.0" />

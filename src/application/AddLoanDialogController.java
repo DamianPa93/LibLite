@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -258,6 +259,8 @@ public class AddLoanDialogController implements Initializable{
 		
 		dc = new DbConnection();
 		conn = dc.connect();
+		
+		datePicker.setValue(LocalDate.now());
 		
 		try {
 			fillText();

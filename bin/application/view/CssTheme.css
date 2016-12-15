@@ -1,0 +1,12 @@
+.table-view .column-header .label {
+    -fx-font-size: 15pt;
+}
+
+.table-cell {
+	-fx-font-size: 12pt;
+}
+
+.tab .tab-label {
+	-fx-alignment: CENTER;
+	-fx-font-size: 14pt;
+}

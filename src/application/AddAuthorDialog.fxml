@@ -42,8 +42,9 @@
             <TextField fx:id="nameText" promptText="name" GridPane.columnIndex="1" />
             <TextField fx:id="surnameText" promptText="surname" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="countryText" promptText="country" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField fx:id="commentsText" promptText="comments" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <DatePicker fx:id="birthText" promptText="02.11.2016" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="commentsText" promptText="comments" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+      
          </children>
       </GridPane>
       <Button layoutX="111.0" layoutY="209.0" mnemonicParsing="false" onAction="#handleAddButton" prefHeight="25.0" prefWidth="80.0" text="Add" />

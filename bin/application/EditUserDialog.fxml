@@ -56,6 +56,8 @@
             <Label text="SECID:" GridPane.rowIndex="11" />
             <Label text="Status:" GridPane.rowIndex="12" />
             <TextField fx:id="usernameText" promptText="Username" GridPane.columnIndex="1" />
+            <PasswordField fx:id="passwordText" promptText="Password" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <PasswordField fx:id="confirmText" promptText="Password" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField fx:id="nameText" promptText="Name" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <TextField fx:id="surnameText" promptText="Surname" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <TextField fx:id="cityText" promptText="City" GridPane.columnIndex="1" GridPane.rowIndex="5" />
@@ -66,8 +68,7 @@
             <TextField fx:id="emailText" promptText="Email" GridPane.columnIndex="1" GridPane.rowIndex="10" />
             <TextField fx:id="secidText" promptText="SECID" GridPane.columnIndex="1" GridPane.rowIndex="11" />
             <TextField fx:id="statusText" promptText="Status" text="A" GridPane.columnIndex="1" GridPane.rowIndex="12" />
-            <PasswordField fx:id="passwordText" promptText="Password" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <PasswordField fx:id="confirmText" promptText="Password" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            
          </children>
       </GridPane>
       <Button fx:id="buttonSave" layoutX="113.0" layoutY="395.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="Save" />
